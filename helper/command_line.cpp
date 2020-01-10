@@ -18,15 +18,15 @@ namespace hlp {
 		application_ = argv[0];
 		for (int i = 1; i < argc; i++) {
 			char* argp = argv[i];
-			for (char ch = *argp; ch == '/' || ch == '-'; ch = *++argp)
+			char ch;
+			for (ch = *argp; ch == '/' || ch == '-'; ch = *++argp)
 				continue;
 			char* sep = strchr(argp, '=');
 			if (sep) {
 				string name(argp, sep - argp);
 				string value(sep + 1);
 				switches_[name] = value;
-			}
-			else {
+			} else {
 				switches_[argp] = "";
 			}
 		}

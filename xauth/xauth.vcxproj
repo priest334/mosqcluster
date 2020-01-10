@@ -69,7 +69,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(PG_SDK)\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -116,19 +118,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="access_token.cpp" />
+    <ClCompile Include="app_info.cpp" />
+    <ClCompile Include="corp_info.cpp" />
+    <ClCompile Include="db\connection_pool.cpp" />
+    <ClCompile Include="db\wrapper.cpp" />
+    <ClCompile Include="db\xdb.cpp" />
+    <ClCompile Include="db\xdb_postgresql.cpp" />
+    <ClCompile Include="global.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="route_new_token.cpp" />
     <ClCompile Include="route_wxwork_message.cpp" />
     <ClCompile Include="tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="wxwork\WXBizMsgCrypt.cpp" />
+    <ClCompile Include="wx_user_info.cpp" />
+    <ClCompile Include="wx_work_api.cpp" />
     <ClCompile Include="xauth.cpp" />
     <ClCompile Include="xerror.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="access_token.h" />
+    <ClInclude Include="app_info.h" />
+    <ClInclude Include="corp_info.h" />
+    <ClInclude Include="db\connection_pool.h" />
+    <ClInclude Include="db\wrapper.h" />
+    <ClInclude Include="db\xdb.h" />
+    <ClInclude Include="db\xdb_postgresql.h" />
+    <ClInclude Include="db\record.h" />
+    <ClInclude Include="global.h" />
     <ClInclude Include="route_new_token.h" />
     <ClInclude Include="route_wxwork_message.h" />
     <ClInclude Include="tinyxml2\tinyxml2.h" />
     <ClInclude Include="wxwork\WXBizMsgCrypt.h" />
+    <ClInclude Include="wx_user_info.h" />
+    <ClInclude Include="wx_work_api.h" />
     <ClInclude Include="xauth.h" />
     <ClInclude Include="xerror.h" />
     <ClInclude Include="xerror_list.h" />

@@ -19,6 +19,12 @@
     <Filter Include="tinyxml2">
       <UniqueIdentifier>{d4224940-8126-4949-8f67-477b46802c00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="db">
+      <UniqueIdentifier>{8336e633-650f-4e93-891d-87e67b9345e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="redis">
+      <UniqueIdentifier>{03c71088-889b-4bc6-9641-3e371c39fd19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -42,6 +48,36 @@
     <ClCompile Include="tinyxml2\tinyxml2.cpp">
       <Filter>tinyxml2</Filter>
     </ClCompile>
+    <ClCompile Include="access_token.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="corp_info.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="app_info.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="wx_work_api.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="wx_user_info.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="db\xdb.cpp">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\xdb_postgresql.cpp">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\connection_pool.cpp">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="db\wrapper.cpp">
+      <Filter>db</Filter>
+    </ClCompile>
+    <ClCompile Include="global.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="xauth.h">
@@ -64,6 +100,39 @@
     </ClInclude>
     <ClInclude Include="tinyxml2\tinyxml2.h">
       <Filter>tinyxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="access_token.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="corp_info.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="app_info.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="wx_work_api.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="wx_user_info.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="db\record.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\xdb.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\xdb_postgresql.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\connection_pool.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="db\wrapper.h">
+      <Filter>db</Filter>
+    </ClInclude>
+    <ClInclude Include="global.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

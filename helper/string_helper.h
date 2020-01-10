@@ -13,6 +13,9 @@ namespace hlp {
 		using std::vector;
 		using std::map;
 
+		string TripLeft(const string& str, char ch);
+		string TripRight(const string& str, char ch);
+		string TripAll(const string& str, char ch);
 		int RemoveAll(string& str, const std::string& value, bool entire = true);
 		int StripLeft(string& str, const std::string& value, bool entire = true);
 		int StripRight(string& str, const string& value, bool entire = true);
@@ -122,8 +125,8 @@ namespace hlp {
 
 			size_t Size() const;
 			void SetAt(size_t index, const string& s);
-			string const& At(size_t index) const;
-			string const& operator[](int index) const;
+			string At(size_t index) const;
+			string operator[](int index) const;
 
 			string ToString(const char* sp, bool append_sp = false);
 			string ToString(const string& sp, bool append_sp = false);
@@ -167,7 +170,7 @@ namespace hlp {
 			map<string, string>& reference() { return value_; }
 			map<string, string> const& const_reference() const { return value_; }
 
-			string const& operator[](const string& key) const;
+			string operator[](const string& key) const;
 
 		private:
 			typedef map<string, string>::const_iterator mciter;

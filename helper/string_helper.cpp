@@ -31,6 +31,28 @@ namespace hlp {
 		}
 	}
 
+	string TripLeft(const string& str, char ch) {
+		string::size_type size = str.length(), i = 0;
+		for (; i < size; i++) {
+			if (ch != str[i])
+				break;
+		}
+		return str.substr(i);
+	}
+
+	string TripRight(const string& str, char ch) {
+		string::size_type size = str.length(), i = size - 1;
+		for (; i >= 0; i--) {
+			if (ch != str[i])
+				break;
+		}
+		return str.substr(0, i + 1);
+	}
+
+	string TripAll(const string& str, char ch) {
+		return TripLeft(TripRight(str, ch), ch);
+	}
+
 	int RemoveAll(string& str, const std::string& value, bool entire/* = true*/) {
 		int retval = 0;
 		string::size_type len = value.length();
@@ -44,8 +66,7 @@ namespace hlp {
 				offset = fpos + 1;
 				++retval;
 			} while (true);
-		}
-		else {
+		} else {
 			for (string::size_type i = 0; i < len; ++i) {
 				string::iterator iter = std::remove(str.begin(), str.end(), value[i]);
 				retval += int(str.end() - iter);
@@ -120,8 +141,6 @@ namespace hlp {
 		} while (true);
 		return retval;
 	}
-
-	const string String::empty_ = "";
 
 	size_t String::Hash(const string& str) {
 		size_t seed = 131;
@@ -596,13 +615,13 @@ namespace hlp {
 			value_.push_back(s);
 	}
 
-	string const& StringVector::At(size_t index) const {
+	string StringVector::At(size_t index) const {
 		if (index < 0 || index >= value_.size())
-			return String::empty_;
+			return "";
 		return value_[index];
 	}
 
-	string const& StringVector::operator[](int index) const {
+	string StringVector::operator[](int index) const {
 		return At(index);
 	}
 
@@ -759,12 +778,12 @@ namespace hlp {
 		return s;
 	}
 
-	string const& StringMap::operator[](const string& key) const {
+	string StringMap::operator[](const string& key) const {
 		mciter iter = value_.find(key);
 		if (iter != value_.end()) {
 			return iter->second;
 		}
-		return String::empty_;
+		return "";
 	}
 } // namespace hlp
 

@@ -1,6 +1,6 @@
 #include "route_wxwork_message.h"
 
-#include "helper/logger.h"
+#include "global.h"
 #include "server/http_request.h"
 #include "wxwork/WXBizMsgCrypt.h"
 
@@ -26,10 +26,10 @@ int GetRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 	string sEchoStr;
 	int ret = wxcpt.VerifyURL(sVerifyMsgSig, sVerifyTimeStamp, sVerifyNonce, sVerifyEchoStr, sEchoStr);
 	if (ret != 0) {
-		Message(logger::Error)<< "VerifyURL Failed: " << ret;
+		logger::Error() << "VerifyURL Failed: " << ret;
 		return 0;
 	}
-	Message(logger::Info) << "echo: " << sEchoStr;
+	logger::Info() << "echo: " << sEchoStr;
 	resp->SetContent(sEchoStr);
 	return 0;
 }
@@ -55,16 +55,16 @@ int PostRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 	string sMsg;
 	int ret = wxcpt.DecryptMsg(sReqMsgSig, sReqTimeStamp, sReqNonce, sReqData, sMsg);
 	if (ret != 0) {
-		Message(logger::Error) << "DecryptMsg Failed: " << ret;
+		logger::Error() << "DecryptMsg Failed: " << ret;
 		return 0;
 	}
 
 	string content;
 	if (0 != wxcpt.GetXmlField(sMsg, "Content", content)) {
-		Message(logger::Error) << "Data Format Error";
+		logger::Error() << "Data Format Error";
 		return 0;
 	}
-	Message(logger::Info) << "message: " << content;
+	logger::Info() << "message: " << content;
 	return 0;
 }
 RouteKey PostRouteWxWorkMessage::route_key() const {

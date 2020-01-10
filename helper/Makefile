@@ -14,7 +14,7 @@ OUTDIR	?= .
 CONDFLAGS =
 
 INCLUDES:= -I.
-LINKLIBS:= -lpthread
+LINKLIBS:= -lpthread -lcurl
 
 COMPILEFLAGS:=$(CXXFLAGS) $(CONDFLAGS)
 LINKFLAGS:= -shared

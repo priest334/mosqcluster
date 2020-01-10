@@ -153,12 +153,13 @@ namespace hlp {
 		}
 
 		bool operator>(const xstring& str) const {
-			for (size_type i = 0; i < size_ && i < str.size_; i++) {
-				if (buffer_[i] == str[i])
-					continue;
-				return buffer_[i] > str[i];
-			}
-			return size_ > str.length();
+			return str < *this;
+			//for (size_type i = 0; i < size_ && i < str.size_; i++) {
+			//	if (buffer_[i] == str[i])
+			//		continue;
+			//	return buffer_[i] > str[i];
+			//}
+			//return size_ > str.length();
 		}
 
 		bool operator>(const std::string& str) const {

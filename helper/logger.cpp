@@ -12,156 +12,145 @@
 #define ThreadVariable __thread
 #endif
 
-static const char* LogLevelName[logger::MaxLevel] = {
-	"Debug",
-	"Info",
-	"Warning",
-	"Error",
-	"Fatal"
-};
 
 ThreadVariable char* message_buffer = 0;
 ThreadVariable int message_buffer_size = 4 * 1024;
 
-Storage::~Storage() {
-}
 
-Console::Console(ILock* lock) : lock_(lock) {
-}
+namespace hlp {
 
-void Console::Write(const std::string& message) {
-	if (lock_) {
-		AutoLock lock(lock_);
-		std::cout << message << std::endl;
-	} else {
-		std::cout << message << std::endl;
-	}
-}
-
-LogFile::LogFile(const std::string& filename, ILock* lock) : lock_(lock) {
-	ofs_.open(filename.c_str(), std::ios_base::app);
-}
-
-void LogFile::Write(const std::string& message) {
-	if (lock_) {
-		AutoLock lock(lock_);
-		ofs_ << message << std::endl;
-	} else {
-		ofs_ << message << std::endl;
-	}
-}
-
-
-Message::Message(logger::LogLevel level) : level_(level) {
-	oss_ << "[" << hlp::Time::Now().ToString() << "]-" << LogLevelName[level] << " ";
-}
-
-Message::~Message() {
-	Logger* logger = Logger::Get();
-	logger->log(level_, *this);
-}
-
-
-Message& Message::format(const char* fmt, ...) {
-	if (0 == message_buffer) {
-		message_buffer = (char*)malloc(message_buffer_size);
-	}
-	if (message_buffer) {
-		va_list args;
-		va_start(args, fmt);
-		int wr = vsnprintf(message_buffer, message_buffer_size, fmt, args);
-		if (wr > 0) {
-			if (wr >= message_buffer_size) {
-				*(message_buffer + message_buffer_size - 32) = '\0';
-				int more = wr - message_buffer_size + 32;
-				oss_ << message_buffer << "..." << more << "more bytes";
-			}
-			else {
-				oss_ << message_buffer;
-			}
-		}
-		va_end(args);
-	}
-	return *this;
-}
-
-std::string const Message::str() const {
-	return oss_.str();
-}
-
-
-Logger::Logger(logger::LogLevel level/* = Debug*/) : level_(level), storage_(0) {
-}
-
-
-Logger::~Logger() {
-}
-
-
-void Logger::SetLevel(logger::LogLevel level) {
-	level_ = level;
-}
-
-void Logger::SetStorage(Storage* storage) {
-	storage_ = storage;
-}
-
-void Logger::debug(const Message& message) {
-	if (logger::Debug >= level_) {
-		storage_->Write(message.str());
-	}
-}
-
-void Logger::info(const Message& message) {
-	if (logger::Info >= level_) {
-		storage_->Write(message.str());
-	}
-}
-
-void Logger::warning(const Message& message) {
-	if (logger::Warning >= level_) {
-		storage_->Write(message.str());
-	}
-}
-
-void Logger::error(const Message& message) {
-	if (logger::Error >= level_) {
-		storage_->Write(message.str());
-	}
-}
-
-void Logger::fatal(const Message& message) {
-	if (logger::Fatal >= level_) {
-		storage_->Write(message.str());
-	}
-}
-
-void Logger::log(logger::LogLevel level, const Message& message) {
-	LogMethod method[logger::MaxLevel] = {
-		&Logger::debug,
-		&Logger::info,
-		&Logger::warning,
-		&Logger::error,
-		&Logger::fatal
+	const char* LogLevelName[MaxLevel] = {
+		"Debug",
+		"Info",
+		"Warning",
+		"Error",
+		"Fatal"
 	};
-	if (level_ >= logger::Debug && level_ < logger::MaxLevel) {
-		(this->*method[level_])(message);
+
+	Storage::~Storage() {
 	}
-}
 
-Logger* Logger::logger_ = NULL;
+	Console::Console(ILock* lock) : lock_(lock) {
+	}
 
-void Logger::Initialize() {
-	logger_ = new Logger();
-}
+	void Console::Write(const std::string& message) {
+		if (lock_) {
+			AutoLock lock(lock_);
+			std::cout << message << std::endl;
+		} else {
+			std::cout << message << std::endl;
+		}
+	}
 
-void Logger::CleanUp() {
-	delete logger_;
-}
+	SingleFile::SingleFile(const std::string& filename, ILock* lock) : lock_(lock) {
+		ofs_.open(filename.c_str(), std::ios_base::app);
+	}
 
-Logger* Logger::Get() {
-	return logger_;
-}
+	void SingleFile::Write(const std::string& message) {
+		if (lock_) {
+			AutoLock lock(lock_);
+			ofs_ << message << std::endl;
+		} else {
+			ofs_ << message << std::endl;
+		}
+	}
 
+	Message::Message(LogLevel level, Logger* logger/* = 0*/) : level_(level), logger_(logger) {
+		oss_ << "[" << hlp::Time::Now().ToString() << "]-" << LogLevelName[level] << " ";
+	}
+
+	Message::~Message() {
+		if (logger_)
+			logger_->log(level_, *this);
+	}
+
+
+	Message& Message::format(const char* fmt, ...) {
+		if (0 == message_buffer) {
+			message_buffer = (char*)malloc(message_buffer_size);
+		}
+		if (message_buffer) {
+			va_list args;
+			va_start(args, fmt);
+			int wr = vsnprintf(message_buffer, message_buffer_size, fmt, args);
+			if (wr > 0) {
+				if (wr >= message_buffer_size) {
+					*(message_buffer + message_buffer_size - 32) = '\0';
+					int more = wr - message_buffer_size + 32;
+					oss_ << message_buffer << "..." << more << "more bytes";
+				} else {
+					oss_ << message_buffer;
+				}
+			}
+			va_end(args);
+		}
+		return *this;
+	}
+
+	std::string const Message::str() const {
+		return oss_.str();
+	}
+
+
+	Logger::Logger(LogLevel level/* = logger::Debug*/) : level_(level), console_(new Console()), storage_(console_) {
+	}
+
+
+	Logger::~Logger() {
+		delete console_;
+	}
+
+
+	void Logger::SetLevel(LogLevel level) {
+		level_ = level;
+	}
+
+	void Logger::SetStorage(Storage* storage) {
+		storage_ = storage;
+	}
+
+	void Logger::debug(const Message& message) {
+		if (Debug >= level_) {
+			storage_->Write(message.str());
+		}
+	}
+
+	void Logger::info(const Message& message) {
+		if (Info >= level_) {
+			storage_->Write(message.str());
+		}
+	}
+
+	void Logger::warning(const Message& message) {
+		if (Warning >= level_) {
+			storage_->Write(message.str());
+		}
+	}
+
+	void Logger::error(const Message& message) {
+		if (Error >= level_) {
+			storage_->Write(message.str());
+		}
+	}
+
+	void Logger::fatal(const Message& message) {
+		if (Fatal >= level_) {
+			storage_->Write(message.str());
+		}
+	}
+
+	void Logger::log(LogLevel level, const Message& message) {
+		LogMethod method[MaxLevel] = {
+			&Logger::debug,
+			&Logger::info,
+			&Logger::warning,
+			&Logger::error,
+			&Logger::fatal
+		};
+		if (level_ >= Debug && level_ < MaxLevel) {
+			(this->*method[level_])(message);
+		}
+	}
+} // namespace logger
 
 

@@ -1,6 +1,7 @@
 #include "http_server.h"
 
 #include <errno.h>
+#include <time.h>
 #include "linux_dummy.h"
 #include "http_request.h"
 #include "routes.h"
@@ -10,15 +11,15 @@ namespace {
 
 	class NextTask;
 
-	NextTask* SendResponse(int sock, const mstr& buffer);
+	NextTask* SendResponse(int sock, const mstr& buffer, NextTask* pre = NULL);
 
 	class NextTask : public ThreadPool::Task {
 	public:
-		NextTask(int sock, const mstr& content) : sock_(sock), content_(content) {
+		NextTask(int sock, const mstr& content, time_t expires_in) : sock_(sock), content_(content), expires_in_(expires_in){
 		}
 
 		void Run() {
-			NextTask* nxt = SendResponse(sock_, content_);
+			NextTask* nxt = SendResponse(sock_, content_, this);
 			if (nxt) {
 				Owner()->Push(nxt);
 				return;
@@ -30,20 +31,31 @@ namespace {
 			delete this;
 		}
 
+		time_t expires() const {
+			return expires_in_;
+		}
+
 	private:
 		int sock_;
 		mstr content_;
+		time_t expires_in_;
 	};
 
 
-	NextTask* SendResponse(int sock, const mstr& buffer) {
+	NextTask* SendResponse(int sock, const mstr& buffer, NextTask* pre/* = NULL*/) {
+		time_t now = time(NULL);
+		time_t expires_in = (NULL == pre) ? (now + 15) : pre->expires();
+		if (now > expires_in) {
+			return NULL;
+		}
+
 		int total = buffer.length();
 		int len = send(sock, buffer.c_str(), total, 0);
 		if (len > 0 && len < total) {
-			return new NextTask(sock, buffer.substr(len));
+			return new NextTask(sock, buffer.substr(len), expires_in);
 		}
 		else if (errno == EAGAIN || errno == EWOULDBLOCK) {
-			return new NextTask(sock, buffer);
+			return new NextTask(sock, buffer, expires_in);
 		}
 		return NULL;
 	}
@@ -63,7 +75,7 @@ namespace {
 			if (routes_) {
 				if (0 == routes_->Process(request_, &resp)) {
 					mstr content = resp.Message();
-					NextTask* nxt = SendResponse(request_->socket(), content);
+					NextTask* nxt = SendResponse(request_->socket(), content, NULL);
 					if (nxt) {
 						Owner()->Push(nxt);
 						return;

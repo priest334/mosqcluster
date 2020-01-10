@@ -56,6 +56,7 @@ void ThreadPool::Wait() {
 }
 
 void ThreadPool::Push(Task* task) {
+	task->Attach(this);
 	qlist_.Push(task);
 }
 
