@@ -1,7 +1,8 @@
 #include "native_file.h"
 
-#include <time.h>
+#include <string.h>
 #include <sys/stat.h>
+#include <time.h>
 #include <iostream>
 #include <sstream>
 #include <streambuf>
