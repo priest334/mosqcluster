@@ -30,7 +30,7 @@ namespace hlp {
 	void NativeFile::Write(const NativeFile::Item& item) {
 		fseek(fpr_, 0, SEEK_END);
 		time_t now = time(0);
-		size_t hash = Hash(item.key) * sizeof(size_t), next = 0, addr = 0, end = (size_t)ftell(fpr_);
+		size_t hash = Hash(item.key) * sizeof(size_t), addr = 0, end = (size_t)ftell(fpr_);
 		fseek(fpr_, hash, SEEK_SET);
 		fread(&addr, 1, 4, fpr_);
 		if (addr != 0) {
@@ -83,9 +83,8 @@ namespace hlp {
 	}
 
 	bool NativeFile::Read(NativeFile::Item& item) {
-		time_t now = time(0);
 		string content;
-		size_t hash = Hash(item.key) * sizeof(size_t), next = 0, addr = 0;
+		size_t hash = Hash(item.key) * sizeof(size_t), addr = 0;
 		fseek(fpr_, hash, SEEK_SET);
 		fread(&addr, 1, sizeof(addr), fpr_);
 		if (addr != 0) {
