@@ -39,7 +39,7 @@ namespace hlp {
 	}
 
 	string NativeMemory::Get(const string& key, bool cleanup) {
-		map<string, Value*>::const_iterator iter = values_.find(key);
+		map<string, Value*>::iterator iter = values_.find(key);
 		if (iter != values_.end()) {
 			Value* p = iter->second;
 			if (!p->IsExpired(time(NULL))) {
