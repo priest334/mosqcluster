@@ -12,7 +12,7 @@
 #else
 #include <sys/time.h>
 #endif
-#include "hiredis/hiredis.h"
+#include <hiredis/hiredis.h>
 #include "helper/string_helper.h"
 #include "global.h"
 
