@@ -12,8 +12,8 @@ OUTDIR	?= .
 
 CONDFLAGS = 
 
-INCLUDES:= -I. -I.. -I/usr/local/include
-LINKLIBS:= -lrt -lssl -lcrypto -lpthread -L../helper -lhelper -L../server -lserver
+INCLUDES:= -I. -I.. -I$(PGHOME)/include -I/usr/local/include
+LINKLIBS:= -lrt -lssl -lcrypto -lpthread -L$(PGHOME)/lib -L../helper -lhelper -L../server -lserver
 
 COMPILEFLAGS:=$(CXXFLAGS) $(CONDFLAGS)
 LINKFLAGS:= -Wl,-rpath=.
