@@ -10,10 +10,20 @@ AppInfo::AppInfo(CorpInfo* corp_info, const string& appid, const string& secret)
 	: corp_info_(corp_info), appid_(appid), secret_(secret), expires_in_(0){
 }
 
-
 AppInfo::~AppInfo() {
 }
 
+void AppInfo::SetAppParam(const string& key, const string& value) {
+	params_[key] = value;
+}
+
+string AppInfo::GetAppParam(const string& key) const {
+	map<string, string>::const_iterator iter = params_.find(key);
+	if (iter != params_.end()) {
+		return iter->second;
+	}
+	return string();
+}
 
 string AppInfo::GetAccessToken(bool force/* = false*/) {
 	time_t now = time(NULL);
@@ -34,6 +44,4 @@ string AppInfo::GetAccessToken(bool force/* = false*/) {
 	expires_in_ = now + expires_in;
 	return access_token_;
 }
-
-
 

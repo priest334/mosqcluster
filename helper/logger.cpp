@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include <fstream>
 #include "xtime.h"
 #include "lock.h"
 
@@ -56,14 +57,13 @@ namespace hlp {
 	}
 
 	Message::Message(LogLevel level, Logger* logger/* = 0*/) : level_(level), logger_(logger) {
-		oss_ << "[" << hlp::Time::Now().ToString() << "]-" << LogLevelName[level] << " ";
+		(*this) << "[" << hlp::Time::Now().ToString() << "]-" << LogLevelName[level] << " ";
 	}
 
 	Message::~Message() {
 		if (logger_)
 			logger_->log(level_, *this);
 	}
-
 
 	Message& Message::format(const char* fmt, ...) {
 		if (0 == message_buffer) {
@@ -77,9 +77,9 @@ namespace hlp {
 				if (wr >= message_buffer_size) {
 					*(message_buffer + message_buffer_size - 32) = '\0';
 					int more = wr - message_buffer_size + 32;
-					oss_ << message_buffer << "..." << more << "more bytes";
+					(*this) << message_buffer << "..." << more << "more bytes";
 				} else {
-					oss_ << message_buffer;
+					(*this) << message_buffer;
 				}
 			}
 			va_end(args);
@@ -88,7 +88,7 @@ namespace hlp {
 	}
 
 	std::string const Message::str() const {
-		return oss_.str();
+		return (*this).str();
 	}
 
 

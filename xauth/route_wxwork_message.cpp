@@ -12,9 +12,15 @@ using namespace Tencent;
 int GetRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 	resp->SetStatus(HTTP_STATUS_OK);
 
-	string sToken = "CU9fXNiO52V9X3lk4frcLyVJ";
-	string sEncodingAESKey = "tDvKQrqzrb2enKBr5yTXrmdi01dXpiJFsJYnAGLEXna";
-	string sCorpID = "ww1fb1fce12f2f8ce0";
+	string corp = req->query("corp").c_str();
+	CorpInfo* info = app::Corp(corp);
+	string sToken = ""; // CU9fXNiO52V9X3lk4frcLyVJ";
+	string sEncodingAESKey = ""; // "tDvKQrqzrb2enKBr5yTXrmdi01dXpiJFsJYnAGLEXna";
+	string sCorpID = ""; // "ww1fb1fce12f2f8ce0";
+	if (info) {
+		sToken = info->GetAppParam(corp, "callback_token");
+		sEncodingAESKey = info->GetAppParam(corp, "callback_aeskey");
+	}
 
 	string sVerifyMsgSig = req->query("msg_signature").c_str();
 	string sVerifyTimeStamp = req->query("timestamp").c_str();
@@ -41,9 +47,15 @@ RouteKey GetRouteWxWorkMessage::route_key() const {
 int PostRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 	resp->SetStatus(HTTP_STATUS_OK);
 
-	string sToken = "CU9fXNiO52V9X3lk4frcLyVJ";
-	string sEncodingAESKey = "tDvKQrqzrb2enKBr5yTXrmdi01dXpiJFsJYnAGLEXna";
-	string sCorpID = "ww1fb1fce12f2f8ce0";
+	string corp = req->query("corp").c_str();
+	CorpInfo* info = app::Corp(corp);
+	string sToken = ""; // CU9fXNiO52V9X3lk4frcLyVJ";
+	string sEncodingAESKey = ""; // "tDvKQrqzrb2enKBr5yTXrmdi01dXpiJFsJYnAGLEXna";
+	string sCorpID = ""; // "ww1fb1fce12f2f8ce0";
+	if (info) {
+		sToken = info->GetAppParam(corp, "callback_token");
+		sEncodingAESKey = info->GetAppParam(corp, "callback_aeskey");
+	}
 
 	string sReqMsgSig = req->query("msg_signature").c_str();
 	string sReqTimeStamp = req->query("timestamp").c_str();

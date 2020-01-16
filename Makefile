@@ -5,7 +5,7 @@
 
 OUTDIR = $(shell pwd)/bin
 
-.PHONY:all helper server xauth clean
+.PHONY:all helper server xauth clean deps
 
 all:
 	mkdir -p $(OUTDIR)
@@ -19,6 +19,9 @@ server:
 	$(MAKE) OUTDIR=$(OUTDIR) -C server
 xauth:
 	$(MAKE) OUTDIR=$(OUTDIR) -C xauth
+	
+deps:
+	$(MAKE) -C deps
 	
 clean:
 	$(MAKE) clean -C helper 

@@ -94,10 +94,6 @@ namespace db {
 		delete workos_conn_pool;
 	}
 
-	hlp::Connection* Get() {
-		return workos_conn_pool->GetConnection();
-	}
-
 	SqlWrapper::SqlWrapper() : hlp::SqlWrapper(workos_conn_pool) {
 	}
 
@@ -157,16 +153,22 @@ namespace app {
 			corp_info[corp_info_count++].Attach(corp_id, corp_name);
 		}
 
-		hlp::String corp, appid, secret;
+		hlp::String corp, appid, secret, token, aeskey;
 		for (i = 0; i < corp_info_count; i++) {
 			for (int j = 0; j < kMaxSize; j++) {
 				name.Format("%s.%d_name", corp_info[i].Name().c_str(), j);
 				appid.Format("%s.%d_appid", corp_info[i].Name().c_str(), j);
 				secret.Format("%s.%d_secret", corp_info[i].Name().c_str(), j);
+				token.Format("%s.%d_callback_token", corp_info[i].Name().c_str(), j);
+				aeskey.Format("%s.%d_callback_aeskey", corp_info[i].Name().c_str(), j);
 				string app_name = config::Get()->Get(name.str());
 				string app_id = config::Get()->Get(appid.str());
 				string app_secret = config::Get()->Get(secret.str());
+				string app_token = config::Get()->Get(token.str());
+				string app_aeskey = config::Get()->Get(aeskey.str());
 				corp_info[i].CreateApplication(app_name, app_id, app_secret);
+				corp_info[i].SetAppParam(app_name, "callback_token", app_token);
+				corp_info[i].SetAppParam(app_name, "callback_aeskey", app_aeskey);
 			}
 		}
 	}
@@ -187,10 +189,18 @@ namespace app {
 		return NULL;
 	}
 
-	string GetAccessToken(const string& name, const string& app) {
-		CorpInfo* corp = Corp(name);
-		if (corp) {
-			return corp->GetAccessToken(app);
+	string GetAccessToken(const string& corp, const string& app) {
+		CorpInfo* info = Corp(corp);
+		if (info) {
+			return info->GetAccessToken(app);
+		}
+		return string();
+	}
+
+	string GetAppParam(const string& corp, const string& app, const string& key) {
+		CorpInfo* info = Corp(corp);
+		if (info) {
+			return info->GetAppParam(app, key);
 		}
 		return string();
 	}

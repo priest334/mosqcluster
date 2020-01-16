@@ -4,7 +4,6 @@
 #include <stdarg.h>
 #include <string>
 #include <sstream>
-#include <fstream>
 
 
 typedef std::ostringstream OStrStream;
@@ -47,23 +46,16 @@ namespace hlp {
 
 	class Logger;
 
-	class Message {
+	class Message : public OStrStream {
 	public:
 		Message(LogLevel level, Logger* logger = 0);
 		virtual ~Message();
-
-		template<class _Type>
-		Message& operator<<(const _Type& value) {
-			oss_ << value;
-			return *this;
-		}
 
 		Message& format(const char* fmt, ...);
 		std::string const str() const;
 
 	private:
 		LogLevel level_;
-		OStrStream oss_;
 		Logger* logger_;
 	};
 

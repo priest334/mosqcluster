@@ -78,7 +78,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -127,6 +127,7 @@
     <ClCompile Include="db\xdb_postgresql.cpp" />
     <ClCompile Include="global.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="redis\redis_client.cpp" />
     <ClCompile Include="route_new_token.cpp" />
     <ClCompile Include="route_wxwork_message.cpp" />
     <ClCompile Include="tinyxml2\tinyxml2.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="db\xdb_postgresql.h" />
     <ClInclude Include="db\record.h" />
     <ClInclude Include="global.h" />
+    <ClInclude Include="redis\redis_client.h" />
     <ClInclude Include="route_new_token.h" />
     <ClInclude Include="route_wxwork_message.h" />
     <ClInclude Include="tinyxml2\tinyxml2.h" />

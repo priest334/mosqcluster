@@ -12,7 +12,7 @@ OUTDIR	?= .
 
 CONDFLAGS = 
 
-INCLUDES:= -I. -I..
+INCLUDES:= -I. -I.. -I/usr/local/include
 LINKLIBS:= -lrt -lssl -lcrypto -lpthread -L../helper -lhelper -L../server -lserver
 
 COMPILEFLAGS:=$(CXXFLAGS) $(CONDFLAGS)

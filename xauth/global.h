@@ -78,6 +78,7 @@ namespace app {
 	CorpInfo* Corp();
 	CorpInfo* Corp(const string& name);
 	string GetAccessToken(const string& corp, const string& app);
+	string GetAppParam(const string& corp, const string& app, const string& key);
 } // namespace app
 
 

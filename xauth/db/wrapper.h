@@ -11,25 +11,11 @@ namespace hlp {
 	class Statement;
 	class ResultSet;
 
-	class ConnectionWrapper{
-		ConnectionWrapper(const ConnectionWrapper& src);
-		ConnectionWrapper& operator=(const ConnectionWrapper& src);
-	public:
-		ConnectionWrapper();
-		ConnectionWrapper(Connection* conn);
-		ConnectionWrapper(ConnectionPool* pool);
-		~ConnectionWrapper();
-		Connection* operator->();
-		operator bool() const;
-	private:
-		ConnectionPool* pool_;
-		Connection* conn_;
-	};
 
 	class SqlWrapper {
 	public:
-		SqlWrapper(Connection* conn);
-		SqlWrapper(Connection* conn, const string& sql);
+		SqlWrapper(Connection& conn);
+		SqlWrapper(Connection& conn, const string& sql);
 		SqlWrapper(ConnectionPool* pool);
 		SqlWrapper(ConnectionPool* pool, const string& sql);
 		virtual ~SqlWrapper();
@@ -42,7 +28,8 @@ namespace hlp {
 		int Update();
 
 	private:
-		ConnectionWrapper conn_;
+		ConnectionPool* pool_;
+		Connection& conn_;
 		Statement* stmt_;
 		string sql_;
 	};

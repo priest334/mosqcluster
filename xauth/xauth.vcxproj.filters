@@ -78,6 +78,9 @@
     <ClCompile Include="global.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="redis\redis_client.cpp">
+      <Filter>redis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="xauth.h">
@@ -133,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="global.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="redis\redis_client.h">
+      <Filter>redis</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

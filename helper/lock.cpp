@@ -4,11 +4,13 @@ ILock::~ILock() {
 }
 
 AutoLock::AutoLock(ILock* lock) : lock_(lock) {
-	lock_->Acquire();
+	if (lock_)
+		lock_->Acquire();
 }
 
 AutoLock::~AutoLock() {
-	lock_->Release();
+	if (lock_)
+		lock_->Release();
 }
 
 

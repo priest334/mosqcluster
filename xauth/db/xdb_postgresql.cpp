@@ -1,21 +1,21 @@
 #include "xdb_postgresql.h"
 
-#include <iostream>
-#include <sstream>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <string.h>
+#include <iostream>
+#include <sstream>
+
+#include "global.h"
 
 
 namespace hlp {
 	using std::ostringstream;
 
 	namespace {
-		const int kMaxStreamSize = 1024;
-		const char* kDateFormat = "";
-		const char* kTimestampFormat = "";
 
 		void PrintSQLException(const string& ex) {
-			std::cout << ex << std::endl;
+			logger::Error() << ex.c_str();
 		}
 	}
 
@@ -126,7 +126,7 @@ namespace hlp {
 
 	void PostgresqlConnection::DestroyStatement(Statement* stmt) {
 		PostgresqlStatement* ostmt = dynamic_cast<PostgresqlStatement*>(stmt);
-		delete stmt;
+		delete ostmt;
 	}
 
 	RecordIndex PostgresqlConnection::Update(const string& sql) {

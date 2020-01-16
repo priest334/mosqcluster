@@ -45,10 +45,8 @@ namespace hlp {
 
 			void LoadBuffer(const string& buffer);
 			void LoadFile(const string& file);
-			string ToBuffer() const;
-			void ToFile(const string& file) const;
-
-			bool HasMember(const string& name);
+			string ToBuffer();
+			void ToFile(const string& file);
 	
 			string Get(const string& name) const;
 			string Get(const string& name, const string& default_value) const;
@@ -68,6 +66,7 @@ namespace hlp {
 
 		class ConfigParser {
 		public:
+			virtual ~ConfigParser();
 			virtual void OnArchiveValue(ostringstream& oss, const string& vpath, const string& name, const string& value) = 0;
 			virtual void LoadBuffer(Config* config, const string& buffer) = 0;
 			virtual void LoadFile(Config* config, const string& file) = 0;

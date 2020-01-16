@@ -25,6 +25,9 @@
     <Filter Include="rapidjson\error">
       <UniqueIdentifier>{35d3a116-7810-4a77-be95-d5a9400aec00}</UniqueIdentifier>
     </Filter>
+    <Filter Include="cache">
+      <UniqueIdentifier>{dd8ff508-26ff-4478-977b-7979881945cc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lock.h">
@@ -186,6 +189,18 @@
     <ClInclude Include="ini_parser.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="simple_pool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="cache.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="cache\native_file.h">
+      <Filter>cache</Filter>
+    </ClInclude>
+    <ClInclude Include="cache\native_memory.h">
+      <Filter>cache</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lock.cpp">
@@ -232,6 +247,15 @@
     </ClCompile>
     <ClCompile Include="ini_parser.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="cache.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="cache\native_file.cpp">
+      <Filter>cache</Filter>
+    </ClCompile>
+    <ClCompile Include="cache\native_memory.cpp">
+      <Filter>cache</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

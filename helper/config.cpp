@@ -110,15 +110,12 @@ namespace hlp {
 		parser_->LoadFile(this, file);
 	}
 
-	string Config::ToBuffer() const {
+	string Config::ToBuffer() {
 		return parser_->ToBuffer(this);
 	}
 
-	void Config::ToFile(const string& file) const {
+	void Config::ToFile(const string& file) {
 		parser_->ToFile(this, file);
-	}
-
-	bool Config::HasMember(const string& name) {
 	}
 
 	string Config::Get(const string& name) const {
@@ -159,6 +156,9 @@ namespace hlp {
 		parser_->OnArchiveValue(oss, vpath, name, value);
 	}
 
+
+	ConfigParser::~ConfigParser() {
+	}
 
 } // namespace hlp
 

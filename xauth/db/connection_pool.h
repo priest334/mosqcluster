@@ -3,7 +3,7 @@
 #include <list>
 #include <string>
 
-#include "helper/lock.h"
+#include "helper/simple_pool.h"
 
 namespace hlp {
 	using std::list;
@@ -11,25 +11,23 @@ namespace hlp {
 
 	class Connection;	
 
+
 	class ConnectionPool {
 	public:
 		ConnectionPool();
+		ConnectionPool(const string& dsn);
 		~ConnectionPool();
-		Connection* GetConnection();
-		void ReleaseConnection(Connection* conn);
+
+		Connection* Create();
+		void Destroy(Connection* conn);
+
+		Connection& Get();
+		void Release(Connection& conn);
 
 		void Init(const string& dsn, int init_size = 5, int inc_size = 2, int max_size = -1);
-
-	protected:
-		void Create(int size);
 	private:
-		int current_size_;
-		int idle_size_;
-		int inc_size_;
-		int max_size_;
-		ILock* lock_;
 		string dsn_;
-		list<Connection*> conn_list_;
+		SimplePool<Connection, ConnectionPool>* pool_;
 	};
 } // namespace hlp
 

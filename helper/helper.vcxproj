@@ -117,6 +117,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="cache.h" />
+    <ClInclude Include="cache\native_file.h" />
+    <ClInclude Include="cache\native_memory.h" />
     <ClInclude Include="command_line.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="ini_parser.h" />
@@ -159,6 +162,7 @@
     <ClInclude Include="rapidjson\stream.h" />
     <ClInclude Include="rapidjson\stringbuffer.h" />
     <ClInclude Include="rapidjson\writer.h" />
+    <ClInclude Include="simple_pool.h" />
     <ClInclude Include="xstring.h" />
     <ClInclude Include="lock.h" />
     <ClInclude Include="lock_impl_posix.h" />
@@ -172,6 +176,9 @@
     <ClInclude Include="xtime.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="cache.cpp" />
+    <ClCompile Include="cache\native_file.cpp" />
+    <ClCompile Include="cache\native_memory.cpp" />
     <ClCompile Include="command_line.cpp" />
     <ClCompile Include="config.cpp" />
     <ClCompile Include="ini_parser.cpp" />
