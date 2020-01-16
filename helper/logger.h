@@ -4,6 +4,7 @@
 #include <stdarg.h>
 #include <string>
 #include <sstream>
+#include <fstream>
 
 
 typedef std::ostringstream OStrStream;
