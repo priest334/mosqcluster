@@ -11,7 +11,7 @@ using namespace Tencent;
 
 int GetRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 	resp->SetStatus(HTTP_STATUS_OK);
-
+	
 	string corp = req->query("corp").c_str();
 	CorpInfo* info = app::Corp(corp);
 	string sToken = "";
@@ -20,6 +20,7 @@ int GetRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 	if (info) {
 		sToken = info->GetAppParam(corp, "callback_token");
 		sEncodingAESKey = info->GetAppParam(corp, "callback_aeskey");
+		sCorpID = info->CorpId();
 	}
 
 	string sVerifyMsgSig = req->query("msg_signature").c_str();
@@ -55,6 +56,7 @@ int PostRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 	if (info) {
 		sToken = info->GetAppParam(corp, "callback_token");
 		sEncodingAESKey = info->GetAppParam(corp, "callback_aeskey");
+		sCorpID = info->CorpId();
 	}
 
 	string sReqMsgSig = req->query("msg_signature").c_str();
