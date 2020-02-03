@@ -186,7 +186,7 @@ namespace app {
 			if (corp_info[i].HasName(name))
 				return &corp_info[i];
 		}
-		return NULL;
+		return Corp();
 	}
 
 	string GetAccessToken(const string& corp, const string& app) {

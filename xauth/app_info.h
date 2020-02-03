@@ -6,6 +6,10 @@
 using std::string;
 using std::map;
 
+namespace hlp {
+	class SimpleCache;
+}
+
 class CorpInfo;
 
 class AppInfo {
@@ -25,6 +29,7 @@ private:
 	string access_token_;
 	time_t expires_in_;
 	map<string, string> params_;
+	hlp::SimpleCache* cache_;
 };
 
 

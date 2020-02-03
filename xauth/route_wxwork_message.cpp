@@ -14,9 +14,9 @@ int GetRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 
 	string corp = req->query("corp").c_str();
 	CorpInfo* info = app::Corp(corp);
-	string sToken = ""; // CU9fXNiO52V9X3lk4frcLyVJ";
-	string sEncodingAESKey = ""; // "tDvKQrqzrb2enKBr5yTXrmdi01dXpiJFsJYnAGLEXna";
-	string sCorpID = ""; // "ww1fb1fce12f2f8ce0";
+	string sToken = "";
+	string sEncodingAESKey = "";
+	string sCorpID = "";
 	if (info) {
 		sToken = info->GetAppParam(corp, "callback_token");
 		sEncodingAESKey = info->GetAppParam(corp, "callback_aeskey");
@@ -49,9 +49,9 @@ int PostRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 
 	string corp = req->query("corp").c_str();
 	CorpInfo* info = app::Corp(corp);
-	string sToken = ""; // CU9fXNiO52V9X3lk4frcLyVJ";
-	string sEncodingAESKey = ""; // "tDvKQrqzrb2enKBr5yTXrmdi01dXpiJFsJYnAGLEXna";
-	string sCorpID = ""; // "ww1fb1fce12f2f8ce0";
+	string sToken = "";
+	string sEncodingAESKey = "";
+	string sCorpID = "";
 	if (info) {
 		sToken = info->GetAppParam(corp, "callback_token");
 		sEncodingAESKey = info->GetAppParam(corp, "callback_aeskey");

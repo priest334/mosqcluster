@@ -60,8 +60,6 @@ namespace db {
 	void Initialize();
 	void Cleanup();
 
-	hlp::Connection* Get();
-
 	class SqlWrapper : public hlp::SqlWrapper {
 	public:
 		SqlWrapper();
