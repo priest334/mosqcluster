@@ -4,7 +4,6 @@
 #include "helper/url_encode.h"
 
 
-
 /* Status Codes */
 #define HTTP_RESP_STATUS_TABLE(XX)                                          \
   XX(200, OK,                              OK)                              \
@@ -290,11 +289,11 @@ ostringstream& operator<<(ostringstream& oss, const HttpResponse& src) {
 	oss << "HTTP/1.1 " << src.status_code_ << " " << http_status_desc(src.status_code_) << "\r\n";
 	map<mstr, mstr>::const_iterator iter = src.headers_.begin();
 	for (; iter != src.headers_.end(); ++iter) {
-		oss << iter->first << ":" << iter->second << "\r\n";
+		oss << iter->first.c_str() << ":" << iter->second.c_str() << "\r\n";
 	}
 	oss << "Content-Length" << ":" << src.content_.length() << "\r\n";
 	oss << "\r\n";
-	oss << src.content_;
+	oss << src.content_.c_str();
 	return oss;
 }
 
