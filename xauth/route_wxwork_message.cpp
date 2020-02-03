@@ -23,9 +23,9 @@ int GetRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 		sCorpID = info->CorpId();
 	}
 
-	logger::Debug() << "token: " << sToken;
-	logger::Debug() << "aeskey: " << sEncodingAESKey;
-	logger::Debug() << "corpid: " << sCorpID;
+	logger::Debug() << sToken;
+	logger::Debug() << sEncodingAESKey;
+	logger::Debug() << sCorpID;
 
 
 	string sVerifyMsgSig = req->query("msg_signature").c_str();

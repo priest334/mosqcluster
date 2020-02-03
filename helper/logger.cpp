@@ -62,7 +62,7 @@ namespace hlp {
 
 	Message::~Message() {
 		if (logger_)
-			logger_->log(level_, this);
+			logger_->log(level_, *this);
 	}
 
 	Message& Message::format(const char* fmt, ...) {
@@ -87,7 +87,6 @@ namespace hlp {
 		return *this;
 	}
 
-
 	Logger::Logger(LogLevel level/* = logger::Debug*/) : level_(level), console_(new Console()), storage_(console_) {
 	}
 
@@ -105,37 +104,37 @@ namespace hlp {
 		storage_ = storage;
 	}
 
-	void Logger::debug(Message* message) {
+	void Logger::debug(const Message& message) {
 		if (Debug >= level_) {
-			storage_->Write(message->str());
+			storage_->Write(message.str());
 		}
 	}
 
-	void Logger::info(Message* message) {
+	void Logger::info(const Message& message) {
 		if (Info >= level_) {
-			storage_->Write(message->str());
+			storage_->Write(message.str());
 		}
 	}
 
-	void Logger::warning(Message* message) {
+	void Logger::warning(const Message& message) {
 		if (Warning >= level_) {
-			storage_->Write(message->str());
+			storage_->Write(message.str());
 		}
 	}
 
-	void Logger::error(Message* message) {
+	void Logger::error(const Message& message) {
 		if (Error >= level_) {
-			storage_->Write(message->str());
+			storage_->Write(message.str());
 		}
 	}
 
-	void Logger::fatal(Message* message) {
+	void Logger::fatal(const Message& message) {
 		if (Fatal >= level_) {
-			storage_->Write(message->str());
+			storage_->Write(message.str());
 		}
 	}
 
-	void Logger::log(LogLevel level, Message* message) {
+	void Logger::log(LogLevel level, const Message& message) {
 		LogMethod method[MaxLevel] = {
 			&Logger::debug,
 			&Logger::info,

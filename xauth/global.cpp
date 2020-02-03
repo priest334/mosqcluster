@@ -62,7 +62,7 @@ namespace logger {
 		return default_logger;
 	}
 
-	Message::Message(hlp::LogLevel level) : message_(level, Get()) {
+	Message::Message(hlp::LogLevel level) : hlp::Message(level, Get()) {
 	}
 
 	Message::~Message() {

@@ -24,17 +24,10 @@ namespace logger {
 	void Cleanup();
 	hlp::Logger* Get();
 
-	class Message {
+	class Message : public hlp::Message {
 	public:
 		Message(hlp::LogLevel level);
 		virtual ~Message();
-		template <class _Type>
-		Message& operator<<(_Type value) {
-			message << value;
-			return *this;
-		}
-	private:
-		hlp::Message message_;
 	};
 
 	class Debug : public Message {
