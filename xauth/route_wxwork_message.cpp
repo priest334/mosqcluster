@@ -23,6 +23,11 @@ int GetRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 		sCorpID = info->CorpId();
 	}
 
+	logger::Debug() << "token: " << sToken;
+	logger::Debug() << "aeskey: " << sEncodingAESKey;
+	logger::Debug() << "corpid: " << sCorpID;
+
+
 	string sVerifyMsgSig = req->query("msg_signature").c_str();
 	string sVerifyTimeStamp = req->query("timestamp").c_str();
 	string sVerifyNonce = req->query("nonce").c_str();
@@ -58,6 +63,10 @@ int PostRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 		sEncodingAESKey = info->GetAppParam(corp, "callback_aeskey");
 		sCorpID = info->CorpId();
 	}
+
+	logger::Debug() << "token: " << sToken;
+	logger::Debug() << "aeskey: " << sEncodingAESKey;
+	logger::Debug() << "corpid: " << sCorpID;
 
 	string sReqMsgSig = req->query("msg_signature").c_str();
 	string sReqTimeStamp = req->query("timestamp").c_str();
