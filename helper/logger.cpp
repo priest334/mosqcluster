@@ -87,10 +87,6 @@ namespace hlp {
 		return *this;
 	}
 
-	std::string const Message::str() const {
-		return (*this).str();
-	}
-
 
 	Logger::Logger(LogLevel level/* = logger::Debug*/) : level_(level), console_(new Console()), storage_(console_) {
 	}
