@@ -11,7 +11,7 @@ namespace hlp {
 		string Value::Get(const string& name, bool& exist) const {
 			exist = false;
 			string::size_type fpos = name.find(kSep);
-			if (fpos > 0 && (fpos + 2) < name.length()) {
+			if (fpos != string::npos && (fpos + 2) < name.length()) {
 				map<string, Value>::const_iterator iter = child_.find(name.substr(fpos + 1));
 				return iter->second.Get(name, exist);
 			} else {
@@ -52,7 +52,7 @@ namespace hlp {
 
 		void Value::Set(const string& name, const string& value) {
 			string::size_type fpos = name.find('.');
-			if (fpos > 0 && (fpos + 2) < name.length()) {
+			if (fpos != string::npos && (fpos + 2) < name.length()) {
 				string prop = name.substr(fpos + 1);
 				map<string, Value>::iterator iter = child_.find(prop);
 				if (iter != child_.end()) {
