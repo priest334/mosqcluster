@@ -143,8 +143,9 @@ namespace app {
 		corp_info = new NamedCorpInfo[kMaxSize];
 		hlp::String name, id;
 		for (i = 0; i < kMaxSize; i++) {
-			name.Format("CorpInfo.%d_name", i);
-			id.Format("CorpInfo.%d_corpid", i);
+			int index = i + 1;
+			name.Format("CorpInfo.%d_name", index);
+			id.Format("CorpInfo.%d_corpid", index);
 			string corp_name = config::Get()->Get(name.str());
 			string corp_id = config::Get()->Get(id.str());
 			if (corp_name.empty() || corp_id.empty()) {
@@ -156,11 +157,12 @@ namespace app {
 		hlp::String corp, appid, secret, token, aeskey;
 		for (i = 0; i < corp_info_count; i++) {
 			for (int j = 0; j < kMaxSize; j++) {
-				name.Format("%s.%d_name", corp_info[i].Name().c_str(), j);
-				appid.Format("%s.%d_appid", corp_info[i].Name().c_str(), j);
-				secret.Format("%s.%d_secret", corp_info[i].Name().c_str(), j);
-				token.Format("%s.%d_callback_token", corp_info[i].Name().c_str(), j);
-				aeskey.Format("%s.%d_callback_aeskey", corp_info[i].Name().c_str(), j);
+				int index = j + 1;
+				name.Format("%s.%d_name", corp_info[i].Name().c_str(), index);
+				appid.Format("%s.%d_appid", corp_info[i].Name().c_str(), index);
+				secret.Format("%s.%d_secret", corp_info[i].Name().c_str(), index);
+				token.Format("%s.%d_callback_token", corp_info[i].Name().c_str(), index);
+				aeskey.Format("%s.%d_callback_aeskey", corp_info[i].Name().c_str(), index);
 				string app_name = config::Get()->Get(name.str());
 				string app_id = config::Get()->Get(appid.str());
 				string app_secret = config::Get()->Get(secret.str());
