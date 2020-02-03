@@ -146,6 +146,6 @@ namespace hlp {
 			(this->*method[level_])(message);
 		}
 	}
-} // namespace logger
+} // namespace hlp
 
 

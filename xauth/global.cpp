@@ -68,6 +68,18 @@ namespace logger {
 	Message::~Message() {
 	}
 
+	Message& Message::operator<<(const char* str) {
+		hlp::Message* os = dynamic_cast<hlp::Message*>(this);
+		(*os) << str;
+		return *this;
+	}
+
+	Message& Message::operator<<(const string& str) {
+		hlp::Message* os = dynamic_cast<hlp::Message*>(this);
+		(*os) << str;
+		return *this;
+	}
+
 	Debug::Debug() : Message(hlp::Debug) {}
 	Info::Info() : Message(hlp::Info) {}
 	Warning::Warning() : Message(hlp::Warning) {}

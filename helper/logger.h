@@ -47,7 +47,7 @@ namespace hlp {
 
 	class Logger;
 
-	class Message : public OStrStream {
+	class Message : public std::ostringstream {
 	public:
 		Message(LogLevel level, Logger* logger = 0);
 		virtual ~Message();
@@ -82,5 +82,5 @@ namespace hlp {
 		Storage* storage_;
 	};
 
-} // namespace logger
+} // namespace hlp
 

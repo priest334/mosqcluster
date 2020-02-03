@@ -28,6 +28,8 @@ namespace logger {
 	public:
 		Message(hlp::LogLevel level);
 		virtual ~Message();
+		Message& operator<<(const char* str);
+		Message& operator<<(const string& str);
 	};
 
 	class Debug : public Message {

@@ -4,7 +4,7 @@
 #include "server/http_request.h"
 #include "wxwork/WXBizMsgCrypt.h"
 
-using namespace std;
+using std::string;
 using namespace Tencent;
 
 
@@ -23,9 +23,9 @@ int GetRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 		sCorpID = info->CorpId();
 	}
 
-	logger::Debug() << sToken;
-	logger::Debug() << sEncodingAESKey;
-	logger::Debug() << sCorpID;
+	logger::Debug() << "token: " << sToken;
+	logger::Debug() << "aeskey: " << sEncodingAESKey;
+	logger::Debug() << "corpid: " << sCorpID;
 
 
 	string sVerifyMsgSig = req->query("msg_signature").c_str();
