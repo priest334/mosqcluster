@@ -53,7 +53,6 @@ namespace hlp {
 		virtual ~Message();
 
 		Message& format(const char* fmt, ...);
-		std::string const str() const;
 
 	private:
 		LogLevel level_;
