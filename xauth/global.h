@@ -28,8 +28,12 @@ namespace logger {
 	public:
 		Message(hlp::LogLevel level);
 		virtual ~Message();
-		Message& operator<<(const char* str);
-		Message& operator<<(const string& str);
+		template <class _Type>
+		Message& operator<<(const _Type& str) {
+			hlp::Message* os = dynamic_cast<hlp::Message*>(this);
+			(*os) << str;
+			return *this;
+		}
 	};
 
 	class Debug : public Message {
