@@ -61,7 +61,7 @@ namespace hlp {
 
 	class Logger {
 	public:
-		typedef void (Logger::*LogMethod)(const Message&);
+		typedef void (Logger::*LogMethod)(Message*);
 
 		Logger(LogLevel level = Debug);
 		~Logger();
@@ -69,13 +69,13 @@ namespace hlp {
 		void SetLevel(LogLevel level);
 		void SetStorage(Storage* storage);
 
-		void debug(const Message& message);
-		void info(const Message& message);
-		void warning(const Message& message);
-		void error(const Message& message);
-		void fatal(const Message& message);
+		void debug(Message* message);
+		void info(Message* message);
+		void warning(Message* message);
+		void error(Message* message);
+		void fatal(Message* message);
 
-		void log(LogLevel level, const Message& message);
+		void log(LogLevel level, Message* message);
 	private:
 		LogLevel level_;
 		Console* console_;

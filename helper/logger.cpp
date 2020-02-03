@@ -105,37 +105,37 @@ namespace hlp {
 		storage_ = storage;
 	}
 
-	void Logger::debug(const Message& message) {
+	void Logger::debug(Message* message) {
 		if (Debug >= level_) {
-			storage_->Write(message.str());
+			storage_->Write(message->str());
 		}
 	}
 
-	void Logger::info(const Message& message) {
+	void Logger::info(Message* message) {
 		if (Info >= level_) {
-			storage_->Write(message.str());
+			storage_->Write(message->str());
 		}
 	}
 
-	void Logger::warning(const Message& message) {
+	void Logger::warning(Message* message) {
 		if (Warning >= level_) {
-			storage_->Write(message.str());
+			storage_->Write(message->str());
 		}
 	}
 
-	void Logger::error(const Message& message) {
+	void Logger::error(Message* message) {
 		if (Error >= level_) {
-			storage_->Write(message.str());
+			storage_->Write(message->str());
 		}
 	}
 
-	void Logger::fatal(const Message& message) {
+	void Logger::fatal(Message* message) {
 		if (Fatal >= level_) {
-			storage_->Write(message.str());
+			storage_->Write(message->str());
 		}
 	}
 
-	void Logger::log(LogLevel level, const Message& message) {
+	void Logger::log(LogLevel level, Message* message) {
 		LogMethod method[MaxLevel] = {
 			&Logger::debug,
 			&Logger::info,
