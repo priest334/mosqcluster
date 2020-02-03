@@ -233,9 +233,9 @@ namespace hlp {
 		size_type buffer_size_;
 	};
 
-	template <class OStreamType>
-	OStreamType& operator<<(OStreamType& oss, const xstring& str) {
-		oss << str.c_str();
-		return oss;
-	}
+	//template <class OStreamType>
+	//OStreamType& operator<<(OStreamType& oss, const xstring& str) {
+	//	oss << str.c_str();
+	//	return oss;
+	//}
 } // namespace hlp
