@@ -12,8 +12,12 @@ namespace hlp {
 			exist = false;
 			string::size_type fpos = name.find(kSep);
 			if (fpos != string::npos && (fpos + 2) < name.length()) {
-				map<string, Value>::const_iterator iter = child_.find(name.substr(fpos + 1));
-				return iter->second.Get(name, exist);
+				string prop = name.substr(0, fpos);
+				map<string, Value>::const_iterator iter = child_.find(prop);
+				if (iter != child_.end()) {
+					return iter->second.Get(name.substr(fpos + 1), exist);
+				}
+				return string();
 			} else {
 				map<string, string>::const_iterator iter = prop_.find(name);
 				if (iter != prop_.end()) {
