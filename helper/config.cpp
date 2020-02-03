@@ -57,14 +57,15 @@ namespace hlp {
 		void Value::Set(const string& name, const string& value) {
 			string::size_type fpos = name.find('.');
 			if (fpos != string::npos && (fpos + 2) < name.length()) {
+				string prefix = name.substr(0, fpos);
 				string prop = name.substr(fpos + 1);
-				map<string, Value>::iterator iter = child_.find(prop);
+				map<string, Value>::iterator iter = child_.find(prefix);
 				if (iter != child_.end()) {
 					iter->second.Set(prop, value);
 				} else {
 					Value child;
 					child.Set(prop, value);
-					child_[name.substr(0, fpos)] = child;
+					child_[prefix] = child;
 				}
 			} else {
 				prop_[name] = value;

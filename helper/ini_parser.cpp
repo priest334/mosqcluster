@@ -29,7 +29,7 @@ namespace hlp {
 		
 		string key, value;
 		string::size_type fpos = str.find('=');
-		if (std::string::npos == fpos || 0 == fpos) {
+		if (string::npos == fpos) {
 			key = str;
 		} else {
 			key = str.substr(0, fpos);
