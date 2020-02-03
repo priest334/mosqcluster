@@ -62,7 +62,7 @@ namespace hlp {
 
 	Message::~Message() {
 		if (logger_)
-			logger_->log(level_, *this);
+			logger_->log(level_, this);
 	}
 
 	Message& Message::format(const char* fmt, ...) {
