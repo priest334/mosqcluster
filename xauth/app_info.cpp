@@ -51,7 +51,7 @@ string AppInfo::GetAccessToken(bool force/* = false*/) {
 	access_token_ = resp.Get("access_token");
 	time_t expires_in = resp.GetInt("expires_in");
 	expires_in_ = now + expires_in;
-	cache_->Set("access_token", access_token_, expires_in_);
+	cache_->Set("access_token", access_token_, expires_in);
 	return access_token_;
 }
 

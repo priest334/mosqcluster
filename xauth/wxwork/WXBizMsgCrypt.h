@@ -81,7 +81,7 @@ public:
                     const std::string &sNonce,
                     std::string &sEncryptMsg);
 					
-	int GetXmlField(const std::string & sPostData, const std::string & sField,std::					string &sEncryptMsg);
+	int GetXmlField(const std::string & sPostData, const std::string & sField, std::string &sEncryptMsg);
 private:
     std::string m_sToken;
     std::string m_sEncodingAESKey;
