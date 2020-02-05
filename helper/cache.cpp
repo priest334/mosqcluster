@@ -55,7 +55,7 @@ namespace hlp {
 	string SimpleCache::Get(const string& key, time_t& expires_in) {
 		AutoLock lock(lock_);
 		if (engine_)
-			return engine_->Get(key, false);
+			return engine_->Get(key, expires_in, false);
 		return string();
 	}
 
