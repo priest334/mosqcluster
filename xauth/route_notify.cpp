@@ -35,7 +35,7 @@ int RouteNotify::Process(HttpRequest* req, HttpResponse* resp) {
 	sdoc.Set("touser", touser);
 	sdoc.Set("msgtype", "text");
 	sdoc.Set("agentid", appid);
-	sdoc.Set("content", content);
+	sdoc.Set("text.content", content);
 	string message = sdoc.Write(false);
 
 	logger::Info() << "message: " << message;
