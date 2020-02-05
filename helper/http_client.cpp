@@ -30,7 +30,7 @@ struct MemBuffer {
 };
 
 size_t MemoryCopyCallback(void* ptr, size_t size, size_t nmemb, void* stream) {
-	size_t msize = size*nmemb;
+	size_t msize = size * nmemb;
 	MemBuffer* mbuf = (MemBuffer*)stream;
 	mbuf->buf_ = (char*)realloc(mbuf->buf_, mbuf->size_ + msize + 1);
 	if (NULL == mbuf->buf_)
@@ -39,7 +39,7 @@ size_t MemoryCopyCallback(void* ptr, size_t size, size_t nmemb, void* stream) {
 	memcpy(&(mbuf->buf_[mbuf->size_]), ptr, msize);
 	mbuf->size_ += msize;
 	mbuf->buf_[mbuf->size_] = '\0';
-	return size*nmemb;
+	return size * nmemb;
 }
 
 int HttpStartup() {
@@ -189,6 +189,9 @@ int HttpOpen(void* session, const char* url) {
 		if (s->cb_)
 			s->cb_(s->user_ptr_, status_code, headers.buf_, content.buf_, content.size_);
 	} while (0);
+
+	free(content.buf_);
+	free(headers.buf_);
 
 	return retcode;
 }
