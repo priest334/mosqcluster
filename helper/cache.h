@@ -13,7 +13,7 @@ namespace hlp {
 	public:
 		virtual ~SimpleCacheEngine();
 		virtual void Set(const string& key, const string& value, time_t expires_in) = 0;
-		virtual string Get(const string& key, bool cleanup) = 0;
+		virtual string Get(const string& key, time_t& expires_in, bool cleanup) = 0;
 	};
 
 	class SimpleCacheEngineFactory {
@@ -30,7 +30,7 @@ namespace hlp {
 		explicit SimpleCache(SimpleCacheEngine* engine);
 		SimpleCache(SimpleCacheEngine* engine, ILock* lock);
 		void Set(const string& key, const string& value, time_t expires_in);
-		string Get(const string& key);
+		string Get(const string& key, time_t& expires_in);
 	private:
 		SimpleCacheEngine* engine_;
 		ILock* lock_;

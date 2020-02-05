@@ -39,7 +39,7 @@ string AppInfo::GetAppParam(const string& key) const {
 
 string AppInfo::GetAccessToken(bool force/* = false*/) {
 	if (access_token_.empty()) {
-		access_token_ = cache_->Get("access_token");
+		access_token_ = cache_->Get("access_token", expires_in_);
 	}
 	time_t now = time(NULL);
 	if (!force && !access_token_.empty() && now < expires_in_) {

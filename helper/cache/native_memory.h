@@ -16,6 +16,7 @@ namespace hlp {
 			bool IsExpired(time_t now) const;
 			void Set(const string& value, time_t expires_in);
 			string Get() const;
+			time_t expires() const;
 		private:
 			string value_;
 			time_t expires_in_;
@@ -25,7 +26,7 @@ namespace hlp {
 		~NativeMemory();
 
 		void Set(const string& key, const string& value, time_t expires_in);
-		string Get(const string& key, bool cleanup = false);
+		string Get(const string& key, time_t& expires_in, bool cleanup = false);
 
 	private:
 		map<string, Value*> values_;

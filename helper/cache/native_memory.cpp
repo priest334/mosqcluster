@@ -20,6 +20,10 @@ namespace hlp {
 		return value_;
 	}
 
+	time_t NativeMemory::Value::expires() const {
+		return expires_in_;
+	}
+
 	NativeMemory::NativeMemory() {
 	}
 
@@ -38,11 +42,12 @@ namespace hlp {
 		}
 	}
 
-	string NativeMemory::Get(const string& key, bool cleanup) {
+	string NativeMemory::Get(const string& key, time_t& expires_in, bool cleanup) {
 		map<string, Value*>::iterator iter = values_.find(key);
 		if (iter != values_.end()) {
 			Value* p = iter->second;
 			if (!p->IsExpired(time(NULL))) {
+				expires_in = p->expires();
 				return p->Get();
 			}
 			if (cleanup) {

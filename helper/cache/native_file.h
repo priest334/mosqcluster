@@ -26,7 +26,7 @@ namespace hlp {
 		void Open(const string& file);
 
 		void Set(const string& key, const string& value, time_t expires_in);
-		string Get(const string& key, bool cleanup = false);
+		string Get(const string& key, time_t& expires_in, bool cleanup = false);
 
 	private:
 		FILE* fpr_;

@@ -183,9 +183,9 @@ namespace hlp {
 		Write(item);
 	}
 
-	string NativeFile::Get(const string& key, bool cleanup) {
-		unused_vairable(cleanup)
-			time_t now = time(NULL);
+	string NativeFile::Get(const string& key, time_t& expires_in, bool cleanup) {
+		unused_vairable(cleanup);
+		time_t now = time(NULL);
 		Item item;
 		item.capcity = 0;
 		item.next = 0;
@@ -194,6 +194,7 @@ namespace hlp {
 		item.value = "";
 		if (Read(item)) {
 			if (item.expires_in >= 0 && now < item.expires_in) {
+				expires_in = item.expires_in;
 				return item.value;
 			}
 		}
