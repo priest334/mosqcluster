@@ -19,6 +19,14 @@ AppInfo* CorpInfo::GetApp(const string& name) const {
 	return NULL;
 }
 
+int CorpInfo::AppId(const string& name) const {
+	AppInfo* app = GetApp(name);
+	if (app) {
+		return app->AppId();
+	}
+	return -1;
+}
+
 
 void CorpInfo::SetCorpId(const string& corpid) {
 	corp_id_ = corpid;

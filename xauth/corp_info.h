@@ -16,6 +16,7 @@ public:
 	virtual ~CorpInfo();
 
 	AppInfo* GetApp(const string& name) const;
+	int AppId(const string& name) const;
 
 	void SetCorpId(const string& corpid);
 	string const& CorpId() const;

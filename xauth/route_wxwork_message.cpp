@@ -13,14 +13,14 @@ int GetRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 	resp->SetStatus(HTTP_STATUS_OK);
 	
 	string corp = req->query("corp").c_str();
-	string notify = req->query("notify").c_str();
+	string app = req->query("app").c_str();
 	CorpInfo* info = app::Corp(corp.empty() ? "Main" : corp);
 	string sToken = "";
 	string sEncodingAESKey = "";
 	string sCorpID = "";
 	if (info) {
-		sToken = info->GetAppParam(notify.empty() ? "notify" : notify, "callback_token");
-		sEncodingAESKey = info->GetAppParam(notify.empty() ? "notify" : notify, "callback_aeskey");
+		sToken = info->GetAppParam(app.empty() ? "notify" : app, "callback_token");
+		sEncodingAESKey = info->GetAppParam(app.empty() ? "notify" : app, "callback_aeskey");
 		sCorpID = info->CorpId();
 	}
 
@@ -50,14 +50,14 @@ int PostRouteWxWorkMessage::Process(HttpRequest* req, HttpResponse* resp) {
 	resp->SetStatus(HTTP_STATUS_OK);
 
 	string corp = req->query("corp").c_str();
-	string notify = req->query("notify").c_str();
+	string app = req->query("notify").c_str();
 	CorpInfo* info = app::Corp(corp.empty() ? "Main" : corp);
 	string sToken = "";
 	string sEncodingAESKey = "";
 	string sCorpID = "";
 	if (info) {
-		sToken = info->GetAppParam(notify.empty() ? "notify" : notify, "callback_token");
-		sEncodingAESKey = info->GetAppParam(notify.empty() ? "notify" : notify, "callback_aeskey");
+		sToken = info->GetAppParam(app.empty() ? "notify" : app, "callback_token");
+		sEncodingAESKey = info->GetAppParam(app.empty() ? "notify" : app, "callback_aeskey");
 		sCorpID = info->CorpId();
 	}
 

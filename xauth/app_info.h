@@ -17,6 +17,8 @@ public:
 	AppInfo(CorpInfo* corp_info, const string& appid, const string& secret);
 	~AppInfo();
 
+	int AppId() const;
+
 	void SetAppParam(const string& key, const string& value);
 	string GetAppParam(const string& key) const;
 

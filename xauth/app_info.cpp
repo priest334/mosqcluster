@@ -19,6 +19,12 @@ AppInfo::AppInfo(CorpInfo* corp_info, const string& appid, const string& secret)
 AppInfo::~AppInfo() {
 }
 
+int AppInfo::AppId() const {
+	if (appid_.empty())
+		return -1;
+	return atoi(appid_.c_str());
+}
+
 void AppInfo::SetAppParam(const string& key, const string& value) {
 	params_[key] = value;
 }
