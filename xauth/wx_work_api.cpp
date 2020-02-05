@@ -20,18 +20,18 @@ WxResp::WxResp() {
 }
 
 bool WxResp::Parse(const string& content) {
-	return json_wrapper_.Parse(content.c_str());
+	return document_.Parse(content);
 }
 
 string WxResp::Get(const string& key) {
 	string value;
-	json_wrapper_.Get(key.c_str(), value);
+	document_.Get(key, value);
 	return value;
 }
 
 int WxResp::GetInt(const string& key) {
 	int value;
-	json_wrapper_.Get(key.c_str(), value);
+	document_.Get(key, value);
 	return value;
 }
 

@@ -81,6 +81,12 @@
     <ClCompile Include="redis\redis_client.cpp">
       <Filter>redis</Filter>
     </ClCompile>
+    <ClCompile Include="route_notify.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="xml_reader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="xauth.h">
@@ -139,6 +145,15 @@
     </ClInclude>
     <ClInclude Include="redis\redis_client.h">
       <Filter>redis</Filter>
+    </ClInclude>
+    <ClInclude Include="route_notify.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="handler_dispatch.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="xml_reader.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

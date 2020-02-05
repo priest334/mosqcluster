@@ -132,6 +132,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="redis\redis_client.cpp" />
     <ClCompile Include="route_new_token.cpp" />
+    <ClCompile Include="route_notify.cpp" />
     <ClCompile Include="route_wxwork_message.cpp" />
     <ClCompile Include="tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="wxwork\WXBizMsgCrypt.cpp" />
@@ -139,6 +140,7 @@
     <ClCompile Include="wx_work_api.cpp" />
     <ClCompile Include="xauth.cpp" />
     <ClCompile Include="xerror.cpp" />
+    <ClCompile Include="xml_reader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="access_token.h" />
@@ -150,8 +152,10 @@
     <ClInclude Include="db\xdb_postgresql.h" />
     <ClInclude Include="db\record.h" />
     <ClInclude Include="global.h" />
+    <ClInclude Include="handler_dispatch.h" />
     <ClInclude Include="redis\redis_client.h" />
     <ClInclude Include="route_new_token.h" />
+    <ClInclude Include="route_notify.h" />
     <ClInclude Include="route_wxwork_message.h" />
     <ClInclude Include="tinyxml2\tinyxml2.h" />
     <ClInclude Include="wxwork\WXBizMsgCrypt.h" />
@@ -160,6 +164,7 @@
     <ClInclude Include="xauth.h" />
     <ClInclude Include="xerror.h" />
     <ClInclude Include="xerror_list.h" />
+    <ClInclude Include="xml_reader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

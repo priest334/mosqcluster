@@ -1,354 +1,155 @@
 #include "json_wrapper.h"
 
-#if defined(WIN32)
-#define StrDup _strdup
-#else
-#define StrDup strdup
-#endif
-
-JsonWrapper::JsonWrapper() {
-}
+#include "json/json.h"
 
 
-JsonWrapper::~JsonWrapper() {
-}
+namespace hlp {
 
-
-bool JsonWrapper::Parse(const char* str) {
-	doc_.Parse<0>(str);
-	return !doc_.HasParseError();
-}
-
-
-bool JsonWrapper::Get(const char* key, bool& value) {
-	bool find = false;
-	rpj::Value& v = GetValue(key, find);
-	if (find && v.IsBool()) {
-		value = v.GetBool();
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::GetEx(const char* key, bool& value, char septor/* = '.'*/) {
-	bool find = false;
-	char* pkey = StrDup(key);
-	rpj::Value& v = GetValueEx(pkey, find, septor);
-	free(pkey);
-	if (find && v.IsBool()) {
-		value = v.GetBool();
-		return true;
-	}
-	return false;
-}
-
-
-bool JsonWrapper::Get(const char* key, int& value) {
-	bool find = false;
-	rpj::Value& v = GetValue(key, find);
-	if (find && v.IsInt()) {
-		value = v.GetInt();
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::GetEx(const char* key, int& value, char septor/* = '.'*/) {
-	bool find = false;
-	char* pkey = StrDup(key);
-	rpj::Value& v = GetValueEx(pkey, find, septor);
-	free(pkey);
-	if (find && v.IsInt()) {
-		value = v.GetInt();
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::Get(const char* key, double& value) {
-	bool find = false;
-	rpj::Value& v = GetValue(key, find);
-	if (find && v.IsDouble()) {
-		value = v.GetDouble();
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::GetEx(const char* key, double& value, char septor/* = '.'*/) {
-	bool find = false;
-	char* pkey = StrDup(key);
-	rpj::Value& v = GetValueEx(pkey, find, septor);
-	free(pkey);
-	if (find && v.IsDouble()) {
-		value = v.GetDouble();
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::Get(const char* key, std::string& value) {
-	bool find = false;
-	rpj::Value& v = GetValue(key, find);
-	if (find && v.IsString()) {
-		value = v.GetString();
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::GetEx(const char* key, std::string& value, char septor/* = '.'*/) {
-	bool find = false;
-	char* pkey = StrDup(key);
-	rpj::Value& v = GetValueEx(pkey, find, septor);
-	free(pkey);
-	if (find && v.IsString()) {
-		value = v.GetString();
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::Get(const char* key, std::set<int>& value) {
-	bool find = false;
-	rpj::Value& v = GetValue(key, find);
-	if (find && v.IsArray()) {
-		size_t i, len = v.Size();
-		for (i = 0; i < len; i++) {
-			if (v[i].IsInt()) {
-				value.insert(v[i].GetInt());
-			}
-		}
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::GetEx(const char* key, std::set<int>& value, char septor/* = '.'*/) {
-	bool find = false;
-	char* pkey = StrDup(key);
-	rpj::Value& v = GetValueEx(pkey, find, septor);
-	free(pkey);
-	if (find && v.IsArray()) {
-		size_t i, len = v.Size();
-		for (i = 0; i < len; i++) {
-			if (v[i].IsInt()) {
-				value.insert(v[i].GetInt());
-			}
-		}
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::Get(const char* key, std::set<double>& value) {
-	bool find = false;
-	rpj::Value& v = GetValue(key, find);
-	if (find && v.IsArray()) {
-		size_t i, len = v.Size();
-		for (i = 0; i < len; i++) {
-			if (v[i].IsDouble()) {
-				value.insert(v[i].GetDouble());
-			}
-		}
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::GetEx(const char* key, std::set<double>& value, char septor/* = '.'*/) {
-	bool find = false;
-	char* pkey = StrDup(key);
-	rpj::Value& v = GetValueEx(pkey, find, septor);
-	free(pkey);
-	if (find && v.IsArray()) {
-		size_t i, len = v.Size();
-		for (i = 0; i < len; i++) {
-			if (v[i].IsDouble()) {
-				value.insert(v[i].GetDouble());
-			}
-		}
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::Get(const char* key, std::set<std::string>& value) {
-	bool find = false;
-	rpj::Value& v = GetValue(key, find);
-	if (find && v.IsArray()) {
-		size_t i, len = v.Size();
-		for (i = 0; i < len; i++) {
-			if (v[i].IsString()) {
-				value.insert(v[i].GetString());
-			}
-		}
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::GetEx(const char* key, std::set<std::string>& value, char septor/* = '.'*/) {
-	bool find = false;
-	char* pkey = StrDup(key);
-	rpj::Value& v = GetValueEx(pkey, find, septor);
-	free(pkey);
-	if (find && v.IsArray()) {
-		size_t i, len = v.Size();
-		for (i = 0; i < len; i++) {
-			if (v[i].IsString()) {
-				value.insert(v[i].GetString());
-			}
-		}
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::Get(const char* key, std::vector<int>& value) {
-	bool find = false;
-	rpj::Value& v = GetValue(key, find);
-	if (find && v.IsArray()) {
-		size_t i, len = v.Size();
-		for (i = 0; i < len; i++) {
-			if (v[i].IsInt()) {
-				value.push_back(v[i].GetInt());
-			}
-		}
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::GetEx(const char* key, std::vector<int>& value, char septor/* = '.'*/) {
-	bool find = false;
-	char* pkey = StrDup(key);
-	rpj::Value& v = GetValueEx(pkey, find, septor);
-	free(pkey);
-	if (find && v.IsArray()) {
-		size_t i, len = v.Size();
-		for (i = 0; i < len; i++) {
-			if (v[i].IsInt()) {
-				value.push_back(v[i].GetInt());
-			}
-		}
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::Get(const char* key, std::vector<double>& value) {
-	bool find = false;
-	rpj::Value& v = GetValue(key, find);
-	if (find && v.IsArray()) {
-		size_t i, len = v.Size();
-		for (i = 0; i < len; i++) {
-			if (v[i].IsDouble()) {
-				value.push_back(v[i].GetDouble());
-			}
-		}
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::GetEx(const char* key, std::vector<double>& value, char septor/* = '.'*/) {
-	bool find = false;
-	char* pkey = StrDup(key);
-	rpj::Value& v = GetValueEx(pkey, find, septor);
-	free(pkey);
-	if (find && v.IsArray()) {
-		size_t i, len = v.Size();
-		for (i = 0; i < len; i++) {
-			if (v[i].IsDouble()) {
-				value.push_back(v[i].GetDouble());
-			}
-		}
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::Get(const char* key, std::vector<std::string>& value) {
-	bool find = false;
-	rpj::Value& v = GetValue(key, find);
-	if (find && v.IsArray()) {
-		size_t i, len = v.Size();
-		for (i = 0; i < len; i++) {
-			if (v[i].IsString()) {
-				value.push_back(v[i].GetString());
-			}
-		}
-		return true;
-	}
-	return false;
-}
-
-bool JsonWrapper::GetEx(const char* key, std::vector<std::string>& value, char septor/* = '.'*/) {
-	bool find = false;
-	char* pkey = StrDup(key);
-	rpj::Value& v = GetValueEx(pkey, find, septor);
-	free(pkey);
-	if (find && v.IsArray()) {
-		size_t i, len = v.Size();
-		for (i = 0; i < len; i++) {
-			if (v[i].IsString()) {
-				value.push_back(v[i].GetString());
-			}
-		}
-		return true;
-	}
-	return false;
-}
-
-char* JsonWrapper::GetKey(char*& key, bool& cancel, char septor/* = '.'*/) {
-	cancel = true;
-	char* ikey = key;
-	for (; *key != '\0'; key++) {
-		if (*key == septor) {
-			*key = '\0';
-			*(key++) = '\0';
-			cancel = false;
-			break;
-		}
-	}
-	return ikey;
-}
-
-rpj::Value& JsonWrapper::GetChild(rpj::Value& parent, char* key, bool& find, char septor/* = '.'*/) {
-	bool cancel = true;
-	char* name = GetKey(key, cancel, septor);
-	find = false;
-	if (parent.IsObject() && parent.HasMember(name)) {
-		if (!cancel) {
-			return GetChild(parent[name], key, find, septor);
+	bool JsonDocument::Get(const Json::Value& parent, const string& key, Json::Value& value) const {
+		string::size_type fpos = key.find('.');
+		if (fpos == string::npos) {
+			if (!parent.isMember(key))
+				return false;
+			value = parent[key];
+			return true;
 		} else {
-			find = true;
-			return parent[name];
+			string pkey = key.substr(0, fpos);
+			if (!parent.isMember(pkey))
+				return false;
+			string subkey = key.substr(fpos + 1);
+			return Get(parent[pkey], subkey, value);
 		}
-	} else {
-		return null_;
 	}
-}
 
-rpj::Value& JsonWrapper::GetValue(const char* key, bool& find) {
-	if (doc_.HasMember(key)) {
-		find = true;
-		return doc_[key];
+	void JsonDocument::Set(Json::Value& parent, const string& key, const Json::Value& value) {
+		string::size_type fpos = key.find('.');
+		if (fpos == string::npos) {
+			parent[key] = value;
+		} else {
+			string pkey = key.substr(0, fpos);
+			if (!parent.isMember(pkey) || !parent[pkey].isObject()) {
+				parent[pkey] = Json::Value(Json::objectValue);
+			}
+			string subkey = key.substr(fpos + 1);
+			return Set(parent[pkey], subkey, value);
+		}
 	}
-	find = false;
-	return null_;
-}
 
-rpj::Value& JsonWrapper::GetValueEx(char* key, bool& find, char septor/* = '.'*/) {
-	char* ikey = key;
-	bool cancel = true;
-	char* name = GetKey(ikey, cancel, septor);
-	find = false;
-	if (doc_.HasMember(name)) {
-		return GetChild(doc_[name], ikey, find, septor);
+	void JsonDocument::Append(Json::Value& parent, const string& key, const Json::Value& value) {
+		string::size_type fpos = key.find('.');
+		if (fpos == string::npos) {
+			if (!parent.isMember(key) || !parent[key].isArray()) {
+				parent[key] = Json::Value(Json::arrayValue);
+			}
+			parent[key].append(value);
+		} else {
+			string pkey = key.substr(0, fpos);
+			if (!parent.isMember(pkey) || !parent[pkey].isObject()) {
+				parent[pkey] = Json::Value(Json::objectValue);
+			}
+			string subkey = key.substr(fpos + 1);
+			return Append(parent[pkey], subkey, value);
+		}
 	}
-	return null_;
+
+	JsonDocument::JsonDocument() : root_(Json::objectValue) {
+	}
+
+	bool JsonDocument::Parse(const string& doc) {
+		Json::Reader reader;
+		return reader.parse(doc.c_str(), root_);
+	}
+
+	string JsonDocument::Write(bool pretty/* = true*/) const {
+		Json::StreamWriterBuilder wbuilder;
+		wbuilder["commentStyle"] = "None";
+		if (pretty) {
+			wbuilder["indentation"] = "\t";
+		} else {
+			wbuilder["indentation"] = "";
+		}
+		return Json::writeString(wbuilder, root_);
+	}
+
+	bool JsonDocument::Get(const string& key, int& value) const {
+		Json::Value v;
+		if (Get(root_, key, v) && v.isInt()) {
+			value = v.asInt();
+			return true;
+		}
+		return false;
+	}
+
+	bool JsonDocument::Get(const string& key, string& value) const {
+		Json::Value v;
+		if (Get(root_, key, v) && v.isString()) {
+			value = v.asString();
+			return true;
+		}
+		return false;
+	}
+
+	bool JsonDocument::Get(const string& key, vector<int>& value) const {
+		Json::Value v;
+		if (Get(root_, key, v) && v.isArray()) {
+			Json::ValueIterator iter = v.begin();
+			for (; iter != v.end(); ++iter) {
+				if (iter->isInt()) {
+					value.push_back(iter->asInt());
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	bool JsonDocument::Get(const string& key, vector<string>& value) const {
+		Json::Value v;
+		if (Get(root_, key, v) && v.isArray()) {
+			Json::ValueIterator iter = v.begin();
+			for (; iter != v.end(); ++iter) {
+				if (iter->isString()) {
+					value.push_back(iter->asString());
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+
+	void JsonDocument::Set(const string& key, int value) {
+		Set(root_, key, Json::Value(value));
+	}
+
+	void JsonDocument::Set(const string& key, const string& value) {
+		Set(root_, key, Json::Value(value));
+	}
+
+	void JsonDocument::Set(const string& key, const vector<int>& value) {
+		Json::Value arr(Json::arrayValue);	
+		vector<int>::const_iterator iter = value.begin();
+		for (; iter != value.end(); ++iter) {
+			arr.append(*iter);
+		}
+		Set(root_, key, arr);
+	}
+
+	void JsonDocument::Set(const string& key, const vector<string>& value) {
+		Json::Value arr(Json::arrayValue);
+		vector<string>::const_iterator iter = value.begin();
+		for (; iter != value.end(); ++iter) {
+			arr.append(*iter);
+		}
+		Set(root_, key, arr);
+	}
+
+	void JsonDocument::Append(const string& key, int value) {
+		Append(root_, key, Json::Value(value));
+	}
+
+	void JsonDocument::Append(const string& key, const string& value) {
+		Append(root_, key, Json::Value(value));
+	}
 }
 
 

@@ -13,7 +13,7 @@ public:
 	string Get(const string& key);
 	int GetInt(const string& key);
 private:
-	JsonWrapper json_wrapper_;
+	hlp::JsonDocument document_;
 };
 
 class WxApi {

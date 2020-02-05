@@ -1,48 +1,40 @@
 #pragma once
 
 #include <string>
-#include <set>
 #include <vector>
-#include "rapidjson/document.h"
+#include "json/json.h"
 
-namespace rpj = rapidjson;
+namespace hlp {
+	using std::string;
+	using std::vector;
 
-class JsonWrapper {
-public:
-	JsonWrapper();
-	~JsonWrapper();
+	class JsonDocument {
+		bool Get(const Json::Value& parent, const string& key, Json::Value& value) const;
+		void Set(Json::Value& parent, const string& key, const Json::Value& value);
+		void Append(Json::Value& parent, const string& key, const Json::Value& value);
+	public:
+		JsonDocument();
+		bool Parse(const string& doc);
+		string Write(bool pretty = true) const;
 
-	bool Parse(const char* str);
+		bool Get(const string& key, int& value) const;
+		bool Get(const string& key, string& value) const;
+		bool Get(const string& key, vector<int>& value) const;
+		bool Get(const string& key, vector<string>& value) const;
+		
+		void Set(const string& key, int value);
+		void Set(const string& key, const string& value);
+		void Set(const string& key, const vector<int>& value);
+		void Set(const string& key, const vector<string>& value);
 
-	bool Get(const char* key, bool& value);
-	bool GetEx(const char* key, bool& value, char septor = '.');
-	bool Get(const char* key, int& value);
-	bool GetEx(const char* key, int& value, char septor = '.');
-	bool Get(const char* key, double& value);
-	bool GetEx(const char* key, double& value, char septor = '.');
-	bool Get(const char* key, std::string& value);
-	bool GetEx(const char* key, std::string& value, char septor = '.');
-	bool Get(const char* key, std::set<int>& value);
-	bool GetEx(const char* key, std::set<int>& value, char septor = '.');
-	bool Get(const char* key, std::set<double>& value);
-	bool GetEx(const char* key, std::set<double>& value, char septor = '.');
-	bool Get(const char* key, std::set<std::string>& value);
-	bool GetEx(const char* key, std::set<std::string>& value, char septor = '.');
-	bool Get(const char* key, std::vector<int>& value);
-	bool GetEx(const char* key, std::vector<int>& value, char septor = '.');
-	bool Get(const char* key, std::vector<double>& value);
-	bool GetEx(const char* key, std::vector<double>& value, char septor = '.');
-	bool Get(const char* key, std::vector<std::string>& value);
-	bool GetEx(const char* key, std::vector<std::string>& value, char septor = '.');
+		void Append(const string& key, int value);
+		void Append(const string& key, const string& value);
 
-private:
-	char* GetKey(char*& key, bool& cancel, char septor = '.');
-	rpj::Value& GetChild(rpj::Value& parent, char* key, bool& find, char septor = '.');
-	rpj::Value& GetValue(const char* key, bool& find);
-	rpj::Value& GetValueEx(char* key, bool& find, char septor = '.');
+	private:
+		Json::Value root_;
+	};
 
-	rpj::Document doc_;
-	rpj::Value null_;
 
-};
+}
+
 
