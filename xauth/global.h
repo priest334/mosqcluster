@@ -68,8 +68,8 @@ namespace db {
 
 	class SqlWrapper : public hlp::SqlWrapper {
 	public:
-		SqlWrapper();
-		SqlWrapper(const string& sql);
+		SqlWrapper(const string& db);
+		SqlWrapper(const string& db, const string& sql);
 	};
 
 } // namespace db
@@ -79,7 +79,6 @@ namespace app {
 	void Initialize();
 	void Cleanup();
 
-	CorpInfo* Corp();
 	CorpInfo* Corp(const string& name);
 	string GetAccessToken(const string& corp, const string& app);
 	string GetAppParam(const string& corp, const string& app, const string& key);
