@@ -4,29 +4,21 @@
 #include "server/routes.h"
 #include "handler_dispatch.h"
 #include "xml_reader.h"
+#include "route_callback.h"
 
-using std::string;
 
-namespace Tencent {
-	class WXBizMsgCrypt;
-}
-
-class HttpRequest;
-class HttpResponse;
-
-class GetRouteWxWorkMessage : public RouteProc {
+class RouteWxWorkMessageVerify : public RouteCallbackVerify {
 public:
-	int Process(HttpRequest* req, HttpResponse* resp);
 	RouteKey route_key() const;
 };
 
-class PostRouteWxWorkMessage : public RouteProc {
+class RouteWxWorkMessageHandler : public RouteCallbackHandler {
 public:
-	int Process(HttpRequest* req, HttpResponse* resp);
 	RouteKey route_key() const;
+	int HandleMessage(HttpRequest* req, HttpResponse* resp, Tencent::WXBizMsgCrypt* wxbmc, XmlReader* xml);
 
 public:
-	typedef int (PostRouteWxWorkMessage::*MsgHandler)(HttpRequest*, HttpResponse*, XmlReader*);
+	typedef int (RouteWxWorkMessageHandler::*MsgHandler)(HttpRequest*, HttpResponse*, XmlReader*);
 	DECLARE_HANDLER_CLUSTER(msgtype, string, MsgHandler)
 
 	int OnRecvText(HttpRequest* req, HttpResponse* resp, XmlReader* xml);

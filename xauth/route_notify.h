@@ -1,15 +1,14 @@
 #pragma once
 
-#include "server/routes.h"
-
-class HttpRequest;
-class HttpResponse;
+#include "route_api.h"
 
 
-class RouteNotify : public RouteProc {
+
+class RouteNotify : public RouteApi {
 public:
-	int Process(HttpRequest* req, HttpResponse* resp);
+	RouteNotify();
 	RouteKey route_key() const;
+	int ApiHandler(HttpRequest* req, HttpResponse* resp, CorpInfo* info);
 };
 
 

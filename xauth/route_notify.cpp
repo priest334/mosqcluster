@@ -9,18 +9,21 @@
 
 using std::string;
 
+RouteNotify::RouteNotify() : RouteApi("Main", "notify") {
+}
 
-int RouteNotify::Process(HttpRequest* req, HttpResponse* resp) {
+RouteKey RouteNotify::route_key() const {
+	return RouteKey(HTTP_POST, "/wxwork/notify");
+}
+
+int RouteNotify::ApiHandler(HttpRequest* req, HttpResponse* resp, CorpInfo* info) {
 	resp->SetStatus(HTTP_STATUS_OK);
 
-	string corp = req->query("corp").c_str();
-	string app = req->query("notify").c_str();
 	string data = req->body().c_str();
-	CorpInfo* info = app::Corp(corp.empty() ? "Main" : corp);
-	string access_token = info->GetAccessToken(app.empty() ? "notify" : app);
-	int appid = info->AppId(app.empty() ? "notify" : app);
+	logger::Debug() << "notify body: " << data;
 
-	logger::Info() << "notify body: " << data;
+	string access_token = info->GetAccessToken(app_);
+	int appid = info->AppId(app_);
 
 	hlp::String url;
 	url.Format("https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s", access_token.c_str());
@@ -41,15 +44,15 @@ int RouteNotify::Process(HttpRequest* req, HttpResponse* resp) {
 	logger::Info() << "message: " << message;
 	string ret = WxApi::Post(url.str(), message);
 	logger::Info() << "response: " << ret;
+	if (!ret.empty()) {
+		WxResp wxresp;
+		wxresp.Parse(ret);
+	}
 
-	WxResp wxresp;
-	wxresp.Parse(ret);
 	return 0;
 }
 
-RouteKey RouteNotify::route_key() const {
-	return RouteKey(HTTP_POST, "/wxwork/notify");
-}
+
 
 
 

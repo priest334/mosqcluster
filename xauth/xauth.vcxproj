@@ -131,6 +131,9 @@
     <ClCompile Include="global.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="redis\redis_client.cpp" />
+    <ClCompile Include="route_api.cpp" />
+    <ClCompile Include="route_callback.cpp" />
+    <ClCompile Include="route_contact_notify.cpp" />
     <ClCompile Include="route_new_token.cpp" />
     <ClCompile Include="route_notify.cpp" />
     <ClCompile Include="route_wxwork_message.cpp" />
@@ -154,6 +157,9 @@
     <ClInclude Include="global.h" />
     <ClInclude Include="handler_dispatch.h" />
     <ClInclude Include="redis\redis_client.h" />
+    <ClInclude Include="route_api.h" />
+    <ClInclude Include="route_callback.h" />
+    <ClInclude Include="route_contact_notify.h" />
     <ClInclude Include="route_new_token.h" />
     <ClInclude Include="route_notify.h" />
     <ClInclude Include="route_wxwork_message.h" />
