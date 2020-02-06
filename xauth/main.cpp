@@ -27,11 +27,13 @@ public:
 	GlobalInitializer(hlp::CommandLine* cmdline) {
 		config::Initialize(cmdline);
 		logger::Initialize();
+		db::Initialize();
 		app::Initialize();
 	}
 	
 	~GlobalInitializer() {
 		app::Cleanup();
+		db::Cleanup();
 		logger::Cleanup();
 		config::Cleanup();
 	}
