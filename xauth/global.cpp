@@ -19,7 +19,7 @@ namespace global{
 	class Manager {	
 		typedef map<string, _Type> Instances;
 	public:
-		typedef Instances::const_iterator InstanceIter;
+		typedef typename Instances::const_iterator InstanceIter;
 
 		Manager(bool free_instances = true) : free_instances_(free_instances){
 		}
