@@ -19,13 +19,13 @@ namespace global{
 	class Manager {	
 		typedef map<string, _Type> Instances;
 	public:
-		typedef Instances::const_iterator InstanceIter;
+		typedef typename Instances::const_iterator InstanceIter;
 
 		Manager(bool free_instances = true) : free_instances_(free_instances){
 		}
 
 		~Manager() {
-			Instances::const_iterator iter = instances_.begin();
+			typename Instances::const_iterator iter = instances_.begin();
 			for (; iter != instances_.end(); ++iter) {
 				if (free_instances_) {
 					delete iter->second;
@@ -39,7 +39,7 @@ namespace global{
 		}
 
 		_Type Get(const string& name) {
-			Instances::const_iterator iter = instances_.find(name);
+			typename Instances::const_iterator iter = instances_.find(name);
 			if (iter != instances_.end()) {
 				return iter->second;
 			}
@@ -173,7 +173,7 @@ namespace app {
 
 	void Initialize() {
 		manager = new global::Manager<CorpInfo*>();
-		int i = 0, count = 0;
+		int i = 0;
 		hlp::String name, id;
 		for (i = 0; i < global::kMaxSize; i++) {
 			int index = i + 1;
