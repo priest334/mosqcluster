@@ -25,6 +25,7 @@ int RouteWxWorkAccessToken::Process(HttpRequest* req, HttpResponse* resp) {
 	hlp::JsonDocument doc;
 	doc.Set("access_token", access_token);
 
+	resp->SetHeader("Content-Type", "application/json");
 	resp->SetContent(doc.Write(false));
 
 	return 0;
