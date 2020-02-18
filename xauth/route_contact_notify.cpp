@@ -25,6 +25,7 @@ RouteContactHandler::RouteContactHandler()
 }
 
 int RouteContactHandler::HandleMessage(HttpRequest* req, HttpResponse* resp, WXBizMsgCrypt* wxbmc, XmlReader* xml) {
+	logger::Debug() << "RouteContactHandler";
 	string msgtype;
 	if (0 != xml->Get("MsgType", msgtype)) {
 		logger::Error() << "Invalid Message Type: " << msgtype;
