@@ -127,6 +127,7 @@ int RouteContactHandler::OnAddExternalContact(HttpRequest* req, HttpResponse* re
 	string wechat = info.Get("external_contact.name");
 
 	string content = "New External Contact: " + wechat;
+	logger::Debug() << content;
 	WxApi::SendAppTextMessage(corp_, app_, userid, content);
 	return 0;
 }
@@ -141,6 +142,7 @@ int RouteContactHandler::OnDelExternalContact(HttpRequest* req, HttpResponse* re
 	string wechat = info.Get("external_contact.name");
 
 	string content = "Del External Contact: " + wechat;
+	logger::Debug() << content;
 	WxApi::SendAppTextMessage(corp_, app_, userid, content);
 	return 0;
 }
