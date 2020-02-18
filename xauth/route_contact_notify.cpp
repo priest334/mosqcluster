@@ -31,6 +31,7 @@ int RouteContactHandler::HandleMessage(HttpRequest* req, HttpResponse* resp, WXB
 		return 0;
 	}
 
+	logger::Debug() << "MsgType: " << msgtype;
 	MsgHandler handler = GET_HANDLER(msgtype, msgtype);
 	if (handler != NULL) {
 		return (this->*handler)(req, resp, xml);
@@ -46,9 +47,11 @@ END_HANDLER_CLUSTER("")
 int RouteContactHandler::OnEvent(HttpRequest* req, HttpResponse* resp, XmlReader* xml) {
 	string event;
 	if (0 != xml->Get("Event", event)) {
+		logger::Error() << "Get Event Failed: " << event;
 		return 0;
 	}
 
+	logger::Debug() << "Event: " << event;
 	MsgHandler handler = GET_HANDLER(event, event);
 	if (handler != NULL) {
 		return (this->*handler)(req, resp, xml);
@@ -65,9 +68,10 @@ END_HANDLER_CLUSTER("")
 int RouteContactHandler::OnChangeContact(HttpRequest* req, HttpResponse* resp, XmlReader* xml) {
 	string change_type;
 	if (0 != xml->Get("ChangeType", change_type)) {
+		logger::Error() << "Get ChangeType Failed: " << change_type;
 		return 0;
 	}
-
+	logger::Debug() << "ChangeType: " << change_type;
 	MsgHandler handler = GET_HANDLER(change_contact, change_type);
 	if (handler != NULL) {
 		return (this->*handler)(req, resp, xml);
@@ -78,9 +82,10 @@ int RouteContactHandler::OnChangeContact(HttpRequest* req, HttpResponse* resp, X
 int RouteContactHandler::OnChangeExternalContact(HttpRequest* req, HttpResponse* resp, XmlReader* xml) {
 	string change_type;
 	if (0 != xml->Get("ChangeType", change_type)) {
+		logger::Error() << "Get ChangeType Failed: " << change_type;
 		return 0;
 	}
-
+	logger::Debug() << "ChangeType: " << change_type;
 	MsgHandler handler = GET_HANDLER(change_external_contact, change_type);
 	if (handler != NULL) {
 		return (this->*handler)(req, resp, xml);
