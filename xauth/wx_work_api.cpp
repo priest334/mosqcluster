@@ -106,7 +106,7 @@ void WxApi::SendAppTextMessage(CorpInfo* corp, const string& app, const string& 
 
 void WxApi::SendAppTextMessage(const string& corp, const string& app, const string& touser, const string& content) {
 	CorpInfo* info = app::Corp(corp);
-	SendAppTextMessage(info, app, touser, content);
+	SendAppTextMessage(info, "notify", touser, content);
 }
 
 string WxApi::GetExternalContact(const string& corp, const string& app, const string& external_userid) {
