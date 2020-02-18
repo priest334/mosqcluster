@@ -21,8 +21,8 @@ public:
 
 public:
 	typedef int (RouteContactHandler::*MsgHandler)(HttpRequest*, HttpResponse*, XmlReader*);
-	DECLARE_HANDLER_CLUSTER(msgtype, string, MsgHandler)
 
+	DECLARE_HANDLER_CLUSTER(msgtype, string, MsgHandler)
 	int OnEvent(HttpRequest* req, HttpResponse* resp, XmlReader* xml);
 
 	DECLARE_HANDLER_CLUSTER(event, string, MsgHandler)

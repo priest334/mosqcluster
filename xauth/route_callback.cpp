@@ -91,7 +91,7 @@ int RouteCallbackHandler::OnMessage(HttpRequest* req, HttpResponse* resp, Tencen
 	logger::Debug() << "message: " << message;
 
 	XmlReader xml(message);
-	return HandleMessage(req, resp, wxbmc, &xml);
+	return this->HandleMessage(req, resp, wxbmc, &xml);
 }
 
 

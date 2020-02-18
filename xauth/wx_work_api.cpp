@@ -111,7 +111,11 @@ void WxApi::SendAppTextMessage(const string& corp, const string& app, const stri
 
 string WxApi::GetExternalContact(const string& corp, const string& app, const string& external_userid) {
 	CorpInfo* info = app::Corp(corp);
-	string access_token = info->GetAccessToken(app);
+	string access_token = info->GetAccessToken("external_contact");
+	if (access_token.empty()) {
+		logger::Error() << "access_token is empty";
+		return "";
+	}
 	hlp::String url;
 	url.Format("https://qyapi.weixin.qq.com/cgi-bin/externalcontact/get?access_token=%s&external_userid=%s", access_token.c_str(), external_userid.c_str());
 	string ret = WxApi::Get(url.str());
