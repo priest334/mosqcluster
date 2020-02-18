@@ -6,8 +6,10 @@
 #include "db/xdb.h"
 #include "db/wrapper.h"
 #include "corp_info.h"
+#include "helper/thread_pool.h"
 
 using std::string;
+
 
 namespace hlp {
 	class CommandLine;
@@ -61,6 +63,13 @@ namespace logger {
 		Fatal();
 	};
 } // namespace logger
+
+namespace async {
+	void Initialize();
+	void Cleanup();
+
+	void Execute(ThreadPool::Task* task);
+} // namespace async
 
 namespace db {
 	void Initialize();

@@ -22,33 +22,13 @@ int RouteNotify::ApiHandler(HttpRequest* req, HttpResponse* resp, CorpInfo* info
 	string data = req->body().c_str();
 	logger::Debug() << "notify body: " << data;
 
-	string access_token = info->GetAccessToken(app_);
-	int appid = info->AppId(app_);
-
-	hlp::String url;
-	url.Format("https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s", access_token.c_str());
-
 	hlp::JsonDocument doc;
 	doc.Parse(data);
 	string touser, content;
 	doc.Get("touser", touser);
 	doc.Get("content", content);
 
-	hlp::JsonDocument sdoc;
-	sdoc.Set("touser", touser);
-	sdoc.Set("msgtype", "text");
-	sdoc.Set("agentid", appid);
-	sdoc.Set("text.content", content);
-	string message = sdoc.Write(false);
-
-	logger::Info() << "message: " << message;
-	string ret = WxApi::Post(url.str(), message);
-	logger::Info() << "response: " << ret;
-	if (!ret.empty()) {
-		WxResp wxresp;
-		wxresp.Parse(ret);
-	}
-
+	WxApi::SendAppTextMessage(info, app_, touser, content);
 	return 0;
 }
 

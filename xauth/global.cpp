@@ -128,6 +128,24 @@ namespace logger {
 
 } // namespace logger
 
+namespace async {
+	ThreadPool* worker_thread_pool = NULL;
+	void Initialize() {
+		worker_thread_pool = new ThreadPool();
+		worker_thread_pool->Create(20);
+	}
+
+	void Cleanup() {
+		worker_thread_pool->Stop();
+		worker_thread_pool->Wait();
+		delete worker_thread_pool;
+	}
+
+	void Execute(ThreadPool::Task* task) {
+		worker_thread_pool->Push(task);
+	}
+} // namespace async
+
 namespace db {
 	global::Manager<hlp::ConnectionPool*>* manager = NULL;
 

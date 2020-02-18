@@ -27,6 +27,7 @@ public:
 	GlobalInitializer(hlp::CommandLine* cmdline) {
 		config::Initialize(cmdline);
 		logger::Initialize();
+		async::Initialize();
 		db::Initialize();
 		app::Initialize();
 	}
@@ -34,6 +35,7 @@ public:
 	~GlobalInitializer() {
 		app::Cleanup();
 		db::Cleanup();
+		async::Cleanup();
 		logger::Cleanup();
 		config::Cleanup();
 	}

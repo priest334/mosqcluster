@@ -1,6 +1,11 @@
 #include "wx_work_api.h"
 
 #include "helper/http_client.h"
+#include "helper/string_helper.h"
+#include "helper/xstring.h"
+#include "global.h"
+
+typedef hlp::xstring mstr;
 
 namespace {
 	struct ApiResp {
@@ -13,6 +18,28 @@ namespace {
 		resp->status_code_ = status_code;
 		resp->content_.assign(content, size);
 	}
+
+	class AsyncPostTask : public ThreadPool::Task {
+	public:
+		AsyncPostTask(const string& url, const string& content) : url_(url), content_(content) {
+		}
+
+		~AsyncPostTask() {
+		}
+
+		void Run() {
+			logger::Debug() << url_;
+			logger::Debug() << "--: " << content_;
+			string ret = WxApi::Post(url_.c_str(), content_.c_str());
+			logger::Debug() << ret;
+		}
+		void Finish() {
+			delete this;
+		}
+	private:
+		mstr url_;
+		mstr content_;
+	};
 }
 
 
@@ -53,6 +80,40 @@ string WxApi::Post(const string& url, const string& data) {
 		return resp.content_;
 	}
 	return "";
+}
+
+string WxApi::AsyncPost(const string& url, const string& data) {
+}
+
+void WxApi::SendAppTextMessage(CorpInfo* corp, const string& app, const string& touser, const string& content) {
+	string access_token = corp->GetAccessToken(app);
+	int appid = corp->AppId(app);
+
+	hlp::String url;
+	url.Format("https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=%s", access_token.c_str());
+
+	hlp::JsonDocument doc;
+	doc.Set("touser", touser);
+	doc.Set("msgtype", "text");
+	doc.Set("agentid", appid);
+	doc.Set("text.content", content);
+	string message = doc.Write(false);
+
+	async::Execute(new AsyncPostTask(url.str(), message));
+}
+
+void WxApi::SendAppTextMessage(const string& corp, const string& app, const string& touser, const string& content) {
+	CorpInfo* info = app::Corp(corp);
+	SendAppTextMessage(info, app, touser, content);
+}
+
+string WxApi::GetExternalContact(const string& corp, const string& app, const string& external_userid) {
+	CorpInfo* info = app::Corp(corp);
+	string access_token = info->GetAccessToken(app);
+	hlp::String url;
+	url.Format("https://qyapi.weixin.qq.com/cgi-bin/externalcontact/get?access_token=%s&external_userid=%s", access_token.c_str(), external_userid.c_str());
+	string ret = WxApi::Get(url.str());
+	return ret;
 }
 
 
