@@ -82,7 +82,8 @@ string WxApi::Post(const string& url, const string& data) {
 	return "";
 }
 
-string WxApi::AsyncPost(const string& url, const string& data) {
+void WxApi::AsyncPost(const string& url, const string& data) {
+	async::Execute(new AsyncPostTask(url, data));
 }
 
 void WxApi::SendAppTextMessage(CorpInfo* corp, const string& app, const string& touser, const string& content) {
@@ -99,7 +100,7 @@ void WxApi::SendAppTextMessage(CorpInfo* corp, const string& app, const string& 
 	doc.Set("text.content", content);
 	string message = doc.Write(false);
 
-	async::Execute(new AsyncPostTask(url.str(), message));
+	AsyncPost(url.str(), message);
 }
 
 void WxApi::SendAppTextMessage(const string& corp, const string& app, const string& touser, const string& content) {
