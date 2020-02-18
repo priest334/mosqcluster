@@ -28,9 +28,10 @@ namespace {
 		}
 
 		void Run() {
-			logger::Debug() << url_;
-			logger::Debug() << "--: " << content_;
-			string ret = WxApi::Post(url_.c_str(), content_.c_str());
+			string url = url_.c_str(), content = content_.c_str();
+			logger::Debug() << url;
+			logger::Debug() << "--: " << content;
+			string ret = WxApi::Post(url, content);
 			logger::Debug() << ret;
 		}
 		void Finish() {
