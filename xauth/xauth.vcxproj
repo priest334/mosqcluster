@@ -137,6 +137,7 @@
     <ClCompile Include="route_new_token.cpp" />
     <ClCompile Include="route_notify.cpp" />
     <ClCompile Include="route_wxwork_access_token.cpp" />
+    <ClCompile Include="route_wxwork_jsapi_ticket.cpp" />
     <ClCompile Include="route_wxwork_message.cpp" />
     <ClCompile Include="tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="wxwork\WXBizMsgCrypt.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="route_new_token.h" />
     <ClInclude Include="route_notify.h" />
     <ClInclude Include="route_wxwork_access_token.h" />
+    <ClInclude Include="route_wxwork_jsapi_ticket.h" />
     <ClInclude Include="route_wxwork_message.h" />
     <ClInclude Include="tinyxml2\tinyxml2.h" />
     <ClInclude Include="wxwork\WXBizMsgCrypt.h" />

@@ -68,5 +68,12 @@ string CorpInfo::GetAccessToken(const string& name) {
 	return string();
 }
 
-
+string  CorpInfo::GetJsapiTicket(const string& name) {
+	map<string, AppInfo*>::const_iterator iter = apps_.find(name);
+	if (iter != apps_.end()) {
+		AppInfo* app = iter->second;
+		return app->GetJsapiTicket();
+	}
+	return string();
+}
 

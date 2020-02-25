@@ -91,6 +91,7 @@ namespace app {
 	CorpInfo* Corp(const string& name);
 	string GetAccessToken(const string& corp, const string& app);
 	string GetAppParam(const string& corp, const string& app, const string& key);
+	string GetJsapiTicket(const string& corp, const string& app);
 } // namespace app
 
 

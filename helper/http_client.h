@@ -27,6 +27,7 @@ int HttpOpen(void* session, const char* url);
 int HttpGet(void* user_ptr, const char* url, const char* headers, HttpCallback cb, const char* proxy = 0, const char* proxy_userpwd = 0);
 int HttpPost(void* user_ptr, const char* url, const char* headers, const char* data, HttpCallback cb, const char* proxy = 0, const char* proxy_userpwd = 0);
 int HttpShutdown();
+int HttpSendFormFile(void* user_ptr, const char* url, const char* headers, const char* file, HttpCallback cb, const char* proxy = 0, const char* proxy_userpwd = 0);
 
 
 #endif // __HTTP_CLIENT_H__

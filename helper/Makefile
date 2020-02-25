@@ -14,7 +14,7 @@ OUTDIR	?= .
 CONDFLAGS =
 
 INCLUDES:= -I. -I./jsoncpp
-LINKLIBS:= -lpthread -lcurl
+LINKLIBS:= -lpthread -lcurl -lssl -luuid
 
 COMPILEFLAGS:=$(CXXFLAGS) $(CONDFLAGS)
 LINKFLAGS:= -shared

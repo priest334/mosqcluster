@@ -36,6 +36,7 @@ namespace hlp {
 		std::string Format(const char* fmt);
 		std::string ToString();
 		time_t Float() const;
+		time_t Timestamp() const;
 
 	private:
 		time_t timestamp_;

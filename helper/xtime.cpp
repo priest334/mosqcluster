@@ -75,6 +75,10 @@ namespace hlp {
 	time_t Time::Float() const {
 		return ftimestamp_;
 	}
+
+	time_t Time::Timestamp() const {
+		return timestamp_;
+	}
 } // namespace hlp
 
 

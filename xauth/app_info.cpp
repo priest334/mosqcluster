@@ -8,12 +8,19 @@
 #include "helper/lock_impl_posix.h"
 
 
+namespace {
+	time_t decrement_expires_in(time_t origin, time_t value) {
+		return (origin > value) ? (origin - value) : origin;
+	}
+}
+
 AppInfo::AppInfo(CorpInfo* corp_info, const string& appid, const string& secret)
-	: corp_info_(corp_info), appid_(appid), secret_(secret), expires_in_(0), cache_(0){
+	: corp_info_(corp_info), appid_(appid), secret_(secret), expires_in_(0), cache1_(0), cache2_(0){
 	hlp::String str;
 	str.Format("file://./%s", appid_.c_str());
 	hlp::SimpleCacheEngineFactory factory;
-	cache_ = new hlp::SimpleCache(factory.Create(str.str()), new LockImplPosix());
+	cache1_ = new hlp::SimpleCache(factory.Create("memory://"), new LockImplPosix());
+	cache2_ = new hlp::SimpleCache(factory.Create(str.str()), new LockImplPosix());
 }
 
 AppInfo::~AppInfo() {
@@ -37,27 +44,95 @@ string AppInfo::GetAppParam(const string& key) const {
 	return string();
 }
 
-string AppInfo::GetAccessToken(bool force/* = false*/) {
-	if (access_token_.empty()) {
-		access_token_ = cache_->Get("access_token", expires_in_);
+string AppInfo::GetParamFromCache(const string& key) {
+	time_t expires_in;
+	string data = cache1_->Get(key, expires_in);
+	if (data.empty()) {
+		data = cache2_->Get(key, expires_in);
 	}
-	time_t now = time(NULL);
-	if (!force && !access_token_.empty() && now < expires_in_) {
-		return access_token_;
+	return data;
+}
+
+void AppInfo::SetParamToCache(const string& key, const string& data, time_t expires_in) {
+	cache1_->Set(key, data, expires_in);
+	cache2_->Set(key, data, expires_in);
+}
+
+string AppInfo::GetAccessToken(bool force/* = false*/) {
+	string access_token;
+	if (!force) {
+		access_token = GetParamFromCache("access_token");
+		if (access_token.empty())
+			return access_token;
 	}
 
 	hlp::String url;
 	url.Format("https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s", corp_info_->CorpId().c_str(), secret_.c_str());
-
 	string content = WxApi::Get(url.str());
-	logger::Info() << "content: " << content;
+	logger::Debug() << "content: " << content;
 
 	WxResp resp;
 	resp.Parse(content);
-	access_token_ = resp.Get("access_token");
-	time_t expires_in = resp.GetInt("expires_in");
-	expires_in_ = now + expires_in;
-	cache_->Set("access_token", access_token_, expires_in - 200);
-	return access_token_;
+	access_token = resp.Get("access_token");
+	if (!access_token.empty()) {
+		time_t expires_in = resp.GetInt("expires_in");
+		SetParamToCache("access_token", access_token, decrement_expires_in(expires_in, 200));
+	}
+	return access_token;
 }
+
+string AppInfo::GetCorpJsapiTicket(bool force/* = false*/) {
+	string ticket;
+	if (!force) {
+		ticket = GetParamFromCache("corp_jsapi_ticket");
+		if (ticket.empty())
+			return ticket;
+	}
+
+	hlp::String url;
+	url.Format("https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=%s", GetAccessToken(force).c_str());
+	string content = WxApi::Get(url.str());
+	logger::Debug() << "content: " << content;
+
+	WxResp resp;
+	resp.Parse(content);
+	string ticket = resp.Get("ticket");
+	if (!ticket.empty()) {
+		time_t expires_in = resp.GetInt("expires_in");
+		SetParamToCache("corp_jsapi_ticket", ticket, decrement_expires_in(expires_in, 200));
+	}
+	return ticket;
+}
+
+string AppInfo::GetAppJsapiTicket(bool force/* = false*/) {
+	string ticket;
+	if (!force) {
+		ticket = GetParamFromCache("app_jsapi_ticket");
+		if (ticket.empty())
+			return ticket;
+	}
+
+	hlp::String url;
+	url.Format("https://qyapi.weixin.qq.com/cgi-bin/ticket/get?access_token=%s&type=agent_config", GetAccessToken(force).c_str());
+	string content = WxApi::Get(url.str());
+	logger::Debug() << "content: " << content;
+
+	WxResp resp;
+	resp.Parse(content);
+	string ticket = resp.Get("ticket");
+	if (!ticket.empty()) {
+		time_t expires_in = resp.GetInt("expires_in");
+		SetParamToCache("app_jsapi_ticket", ticket, decrement_expires_in(expires_in, 200));
+	}
+	return ticket;
+}
+
+string AppInfo::GetJsapiTicket(bool force/* = false*/) {
+	string corp_jsapi_ticket = GetCorpJsapiTicket(force);
+	string app_jsapi_ticket = GetAppJsapiTicket(force);
+	hlp::String content;
+	content.Format("{\"corp_jsapi_ticket\": \"%s\", \"app_jsapi_ticket\": \"%s\"}", corp_jsapi_ticket.c_str(), app_jsapi_ticket.c_str());
+	return content.str();
+}
+
 

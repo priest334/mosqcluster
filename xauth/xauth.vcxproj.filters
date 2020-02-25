@@ -99,6 +99,9 @@
     <ClCompile Include="route_wxwork_access_token.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="route_wxwork_jsapi_ticket.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="xauth.h">
@@ -177,6 +180,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="route_wxwork_access_token.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="route_wxwork_jsapi_ticket.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -22,6 +22,9 @@
     <Filter Include="jsoncpp\json">
       <UniqueIdentifier>{7c198414-0175-4942-9afd-0304a93afea4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="crypto">
+      <UniqueIdentifier>{78883411-9d02-4b96-9888-1df8f481ec76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lock.h">
@@ -93,6 +96,30 @@
     <ClInclude Include="jsoncpp\json\json-forwards.h">
       <Filter>jsoncpp\json</Filter>
     </ClInclude>
+    <ClInclude Include="crypto\aes.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto\base32.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto\base64.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto\des.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto\hexstr.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto\types.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="crypto\hash.h">
+      <Filter>crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="uuidx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lock.cpp">
@@ -151,6 +178,27 @@
     </ClCompile>
     <ClCompile Include="jsoncpp\jsoncpp.cpp">
       <Filter>jsoncpp</Filter>
+    </ClCompile>
+    <ClCompile Include="crypto\aes.cpp">
+      <Filter>crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="crypto\base32.cpp">
+      <Filter>crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="crypto\base64.cpp">
+      <Filter>crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="crypto\des.cpp">
+      <Filter>crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="crypto\hexstr.cpp">
+      <Filter>crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="crypto\hash.cpp">
+      <Filter>crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="uuidx.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

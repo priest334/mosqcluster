@@ -25,6 +25,8 @@ public:
 
 	bool CreateApplication(const string& name, const string& appid, const string& secret);
 	string GetAccessToken(const string& name);
+
+	string GetJsapiTicket(const string& name);
 private:
 	string corp_id_;
 	map<string, AppInfo*> apps_;

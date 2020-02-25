@@ -237,3 +237,46 @@ int HttpShutdown() {
 	return 0;
 }
 
+int HttpSendFormFile(void* user_ptr, const char* url, const char* headers, const char* file, HttpCallback cb, const char* proxy/* = 0*/, const char* proxy_userpwd/* = 0*/) {
+	struct HttpSession* session = (struct HttpSession*)HttpCreateSession(user_ptr, cb, HTTP_METHOD_POST);
+	struct curl_httppost *formpost = NULL;
+	struct curl_httppost *lastptr = NULL;
+
+	/* Fill in the file upload field */
+	curl_formadd(&formpost,
+		&lastptr,
+		CURLFORM_COPYNAME, "media",
+		CURLFORM_FILE, file,
+		CURLFORM_END);
+
+	/* Fill in the filename field */
+	curl_formadd(&formpost,
+		&lastptr,
+		CURLFORM_COPYNAME, "filename",
+		CURLFORM_COPYCONTENTS, file,
+		CURLFORM_END);
+
+	/* Fill in the submit field too, even if this is rarely needed */
+	curl_formadd(&formpost,
+		&lastptr,
+		CURLFORM_COPYNAME, "submit",
+		CURLFORM_COPYCONTENTS, "send",
+		CURLFORM_END);
+
+	if (session->curl_) {
+		HttpSetHeader(session, headers);
+		HttpSetHeader(session, "Expect:");
+		if (proxy) {
+			HttpSetProxy(session, proxy);
+			if (proxy_userpwd)
+				HttpSetProxyUserPwd(session, proxy_userpwd);
+		}
+		HttpOpen(session, url);
+		/* then cleanup the formpost chain */
+		curl_formfree(formpost);
+	}
+
+	HttpDestroySession(session);
+	return 0;
+}
+

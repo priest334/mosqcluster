@@ -256,5 +256,13 @@ namespace app {
 		}
 		return string();
 	}
+
+	string GetJsapiTicket(const string& corp, const string& app) {
+		CorpInfo* info = Corp(corp);
+		if (info) {
+			return info->GetJsapiTicket(app);
+		}
+		return string();
+	}
 } // namespace app
 
