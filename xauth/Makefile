@@ -12,7 +12,7 @@ OUTDIR	?= .
 
 CONDFLAGS = 
 
-INCLUDES:= -I. -I.. -I../helper/jsoncpp -I$(PGHOME)/include -I/usr/local/include
+INCLUDES:= -I. -I.. -I../helper -I../helper/jsoncpp -I$(PGHOME)/include -I/usr/local/include
 LINKLIBS:= -lrt -lssl -lcrypto -lpthread -lhiredis -L$(PGHOME)/lib -lpq -L../helper -lhelper -L../server -lserver
 
 COMPILEFLAGS:=$(CXXFLAGS) $(CONDFLAGS)
