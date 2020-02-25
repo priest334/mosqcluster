@@ -1,5 +1,6 @@
 #include "crypto/des.h"
 
+#include <string.h>
 #include <openssl/des.h>
 #include "crypto/hexstr.h"
 

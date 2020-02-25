@@ -56,10 +56,10 @@ namespace hlp {
 
 			char index_count_[BASE64_INDEX_LENGTH] = { 0 };
 			for (size_t i = 0; i < BASE64_KEY_LENGTH; i++) {
-				if (index_count_[keys_[i]] == 1)
+				if (index_count_[keys_.keys_[i]] == 1)
 					retval = -1;
-				index_.index_[keys_[i]] = i;
-				index_count_[keys_[i]] = 1;
+				index_.index_[keys_.keys_[i]] = i;
+				index_count_[keys_.keys_[i]] = 1;
 			}
 			return retval;
 		}
