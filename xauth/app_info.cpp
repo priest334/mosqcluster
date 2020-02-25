@@ -96,7 +96,7 @@ string AppInfo::GetCorpJsapiTicket(bool force/* = false*/) {
 
 	WxResp resp;
 	resp.Parse(content);
-	string ticket = resp.Get("ticket");
+	ticket = resp.Get("ticket");
 	if (!ticket.empty()) {
 		time_t expires_in = resp.GetInt("expires_in");
 		SetParamToCache("corp_jsapi_ticket", ticket, decrement_expires_in(expires_in, 200));
@@ -119,7 +119,7 @@ string AppInfo::GetAppJsapiTicket(bool force/* = false*/) {
 
 	WxResp resp;
 	resp.Parse(content);
-	string ticket = resp.Get("ticket");
+	ticket = resp.Get("ticket");
 	if (!ticket.empty()) {
 		time_t expires_in = resp.GetInt("expires_in");
 		SetParamToCache("app_jsapi_ticket", ticket, decrement_expires_in(expires_in, 200));
