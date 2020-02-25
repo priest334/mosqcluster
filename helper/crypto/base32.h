@@ -20,8 +20,6 @@ namespace hlp {
 			int SetKeys(const string& keys);
 			string Encrypt(const string& str);
 			string Decrypt(const string& str);
-		protected:
-			void InitIndex();
 		private:
 			Base32Keys keys_;
 			Base32Index index_;

@@ -2,6 +2,7 @@
 
 #include <string.h>
 
+
 namespace hlp {
 	namespace crypt {
 		namespace {
@@ -56,10 +57,10 @@ namespace hlp {
 
 			char index_count_[BASE64_INDEX_LENGTH] = { 0 };
 			for (size_t i = 0; i < BASE64_KEY_LENGTH; i++) {
-				if (index_count_[keys_[i]] == 1)
+				if (index_count_[(int)keys_[i]] == 1)
 					retval = -1;
-				index_[keys_[i]] = i;
-				index_count_[keys_[i]] = 1;
+				index_[(int)keys_[i]] = i;
+				index_count_[(int)keys_[i]] = 1;
 			}
 			return retval;
 		}
