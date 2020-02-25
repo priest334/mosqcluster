@@ -5,7 +5,7 @@
 NMARCH	=$(subst _,-,$(shell uname -m))
 
 #CXX		= g++
-CXXFLAGS= -g -Wall -march=$(NMARCH) -fpermissive -fPIC
+CXXFLAGS= -g -Wall -Wno-char-subscripts -march=$(NMARCH) -fpermissive -fPIC
 
 NAME	= libhelper.so
 LIBNAME = libhelper.lib

@@ -94,10 +94,10 @@ namespace hlp {
 
 			char indexcount_[BASE32_INDEX_LENGTH] = { 0 };
 			for (size_t i = 0; i < BASE32_KEY_LENGTH; i++) {
-				if (indexcount_[(int)keys_[i]] == 1)
+				if (indexcount_[keys_[i]] == 1)
 					retval = -1;
-				index_[(int)keys_[i]] = i;
-				indexcount_[(int)keys_[i]] = 1;
+				index_[keys_[i]] = i;
+				indexcount_[keys_[i]] = 1;
 			}
 			return retval;
 		}
