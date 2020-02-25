@@ -25,20 +25,23 @@ struct HttpSession {
 
 struct MemBuffer {
 	void* user_ptr_;
-	char* buf_;
+	char** buf_;
 	size_t size_;
 };
 
 size_t MemoryCopyCallback(void* ptr, size_t size, size_t nmemb, void* stream) {
 	size_t msize = size * nmemb;
 	MemBuffer* mbuf = (MemBuffer*)stream;
-	mbuf->buf_ = (char*)realloc(mbuf->buf_, mbuf->size_ + msize + 1);
-	if (NULL == mbuf->buf_)
+	if (!*mbuf->buf_)
+		*mbuf->buf_ = (char*)calloc(1, mbuf->size_ + msize + 1);
+	else
+		*mbuf->buf_ = (char*)realloc(*mbuf->buf_, mbuf->size_ + msize + 1);
+	if (NULL == *mbuf->buf_)
 		return 0;
 
-	memcpy(&(mbuf->buf_[mbuf->size_]), ptr, msize);
+	memcpy(&((*mbuf->buf_)[mbuf->size_]), ptr, msize);
 	mbuf->size_ += msize;
-	mbuf->buf_[mbuf->size_] = '\0';
+	(*mbuf->buf_)[mbuf->size_] = '\0';
 	return size * nmemb;
 }
 
@@ -140,7 +143,7 @@ int HttpSetPostData(void* session, const char* data) {
 	return 0;
 }
 
-int HttpOpen(void* session, const char* url) {
+int HttpOpen(void* session, const char* url, char** resp/* = 0*/, char** data/* = 0*/) {
 	struct HttpSession* s = (struct HttpSession*)session;
 
 	curl_easy_setopt(s->curl_, CURLOPT_URL, url);
@@ -159,13 +162,14 @@ int HttpOpen(void* session, const char* url) {
 		}
 	}
 
+	char *m1 = NULL, *m2 = NULL;
 	struct MemBuffer content, headers;
 	content.user_ptr_ = s->user_ptr_;
-	content.buf_ = (char*)malloc(32);
+	content.buf_ = data ? data : &m1;
 	content.size_ = 0;
 
 	headers.user_ptr_ = s->user_ptr_;
-	headers.buf_ = (char*)malloc(32);
+	headers.buf_ = resp ? resp : &m2;
 	headers.size_ = 0;
 
 	curl_easy_setopt(s->curl_, CURLOPT_HTTPHEADER, s->request_headers_);
@@ -187,11 +191,11 @@ int HttpOpen(void* session, const char* url) {
 
 		curl_easy_getinfo(s->curl_, CURLINFO_RESPONSE_CODE, &status_code);
 		if (s->cb_)
-			s->cb_(s->user_ptr_, status_code, headers.buf_, content.buf_, content.size_);
+			s->cb_(s->user_ptr_, status_code, *headers.buf_, *content.buf_, content.size_);
 	} while (0);
 
-	free(content.buf_);
-	free(headers.buf_);
+	free(m1);
+	free(m2);
 
 	return retcode;
 }
@@ -237,8 +241,15 @@ int HttpShutdown() {
 	return 0;
 }
 
-int HttpSendFormFile(void* user_ptr, const char* url, const char* headers, const char* file, HttpCallback cb, const char* proxy/* = 0*/, const char* proxy_userpwd/* = 0*/) {
-	struct HttpSession* session = (struct HttpSession*)HttpCreateSession(user_ptr, cb, HTTP_METHOD_POST);
+void HttpFreeData(char** data) {
+	if (data && *data) {
+		free(*data);
+		*data = NULL;
+	}
+}
+
+int HttpSendFile(void* user_ptr, const char* url, const char* headers, const char* file, char** resp, char** data, const char* proxy/* = 0*/, const char* proxy_userpwd/* = 0*/) {
+	struct HttpSession* session = (struct HttpSession*)HttpCreateSession(user_ptr, NULL, HTTP_METHOD_MIMEPOST);
 	struct curl_httppost *formpost = NULL;
 	struct curl_httppost *lastptr = NULL;
 
