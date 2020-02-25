@@ -13,19 +13,8 @@ namespace hlp {
 		using std::string;
 
 		class BASE32 {
-			typedef struct base32_keys_s {
-				char keys_[BASE32_KEY_LENGTH];
-				operator char*() {
-					return &keys_[0];
-				}
-			} Base32Keys;
-
-			typedef struct base32_index_s {
-				uchar_t index_[BASE32_INDEX_LENGTH];
-				operator uchar_t*() {
-					return &index_[0];
-				}
-			} Base32Index;
+			typedef char Base32Keys[BASE32_KEY_LENGTH];
+			typedef uchar_t Base32Index[BASE32_INDEX_LENGTH];
 		public:
 			BASE32();
 			int SetKeys(const string& keys);

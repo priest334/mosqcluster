@@ -86,10 +86,10 @@ namespace hlp {
 		int BASE32::SetKeys(const string& keys) {
 			int retval = 0;
 			if (keys.length() < BASE32_KEY_LENGTH) {
-				memcpy(keys_.keys_, kDefaultBase32Keys, BASE32_KEY_LENGTH);
+				memcpy(keys_, kDefaultBase32Keys, BASE32_KEY_LENGTH);
 				retval = -1;
 			} else {
-				memcpy(keys_.keys_, keys.c_str(), BASE32_KEY_LENGTH);
+				memcpy(keys_, keys.c_str(), BASE32_KEY_LENGTH);
 			}
 
 			char indexcount_[BASE32_INDEX_LENGTH] = { 0 };

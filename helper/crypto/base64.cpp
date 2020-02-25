@@ -48,18 +48,18 @@ namespace hlp {
 		int Base64::SetKeys(const string& keys) {
 			int retval = 0;
 			if (keys.length() < BASE64_KEY_LENGTH) {
-				memcpy(keys_.keys_, kDefaultBase64Keys, BASE64_KEY_LENGTH);
+				memcpy(keys_, kDefaultBase64Keys, BASE64_KEY_LENGTH);
 				retval = -1;
 			} else {
-				memcpy(keys_.keys_, keys.c_str(), BASE64_KEY_LENGTH);
+				memcpy(keys_, keys.c_str(), BASE64_KEY_LENGTH);
 			}
 
 			char index_count_[BASE64_INDEX_LENGTH] = { 0 };
 			for (size_t i = 0; i < BASE64_KEY_LENGTH; i++) {
-				if (index_count_[keys_.keys_[i]] == 1)
+				if (index_count_[keys_[i]] == 1)
 					retval = -1;
-				index_.index_[keys_.keys_[i]] = i;
-				index_count_[keys_.keys_[i]] = 1;
+				index_[keys_[i]] = i;
+				index_count_[keys_[i]] = 1;
 			}
 			return retval;
 		}
@@ -87,7 +87,7 @@ namespace hlp {
 			out.resize(block * 3, 0);
 			size_t total = 0;
 			for (size_t i = 0, oft = 0, oo = 0; i < block; i++, oft += 4, oo += 3) {
-				total += base64_decrypt(index_.index_, &bytes[oft], &out[oo]);
+				total += base64_decrypt(index_, &bytes[oft], &out[oo]);
 			}
 			out.resize(total);
 			return string(out.begin(), out.end());

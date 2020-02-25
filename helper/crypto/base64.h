@@ -13,19 +13,8 @@ namespace hlp {
 	namespace crypt {
 
 		class Base64 {
-			typedef struct base64_keys_s {
-				char keys_[BASE64_KEY_LENGTH];
-				operator char*() {
-					return &keys_[0];
-				}
-			} Base64Keys;
-
-			typedef struct base64_index_s {
-				uchar_t index_[BASE64_INDEX_LENGTH];
-				operator uchar_t*() {
-					return &index_[0];
-				}
-			} Base64Index;
+			typedef char Base64Keys[BASE64_KEY_LENGTH];
+			typedef uchar_t Base64Index[BASE64_INDEX_LENGTH];
 		public:
 			Base64();
 			int SetKeys(const string& keys);
