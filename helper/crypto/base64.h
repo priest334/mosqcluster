@@ -2,7 +2,9 @@
 #define __CRYPTO_BASE64_H__
 
 #include <string>
+#include "crypto/types.h"
 using std::string;
+
 
 #define BASE64_KEY_LENGTH 64
 #define BASE64_INDEX_LENGTH 256

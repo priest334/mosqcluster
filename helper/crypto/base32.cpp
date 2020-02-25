@@ -1,5 +1,7 @@
 #include "crypto/base32.h"
 
+#include <string.h>
+
 namespace hlp {
 	namespace crypt {
 		namespace {

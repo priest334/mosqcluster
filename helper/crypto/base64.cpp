@@ -1,6 +1,6 @@
 #include "crypto/base64.h"
 
-#include "crypto/types.h"
+#include <string.h>
 
 namespace hlp {
 	namespace crypt {
