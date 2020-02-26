@@ -250,31 +250,21 @@ void HttpFreeData(char** data) {
 
 int HttpSendFile(void* user_ptr, const char* url, const char* headers, const char* file, char** resp, char** data, const char* proxy/* = 0*/, const char* proxy_userpwd/* = 0*/) {
 	struct HttpSession* session = (struct HttpSession*)HttpCreateSession(user_ptr, NULL, HTTP_METHOD_MIMEPOST);
-	struct curl_httppost *formpost = NULL;
-	struct curl_httppost *lastptr = NULL;
-
-	/* Fill in the file upload field */
-	curl_formadd(&formpost,
-		&lastptr,
-		CURLFORM_COPYNAME, "media",
-		CURLFORM_FILE, file,
-		CURLFORM_END);
-
-	/* Fill in the filename field */
-	curl_formadd(&formpost,
-		&lastptr,
-		CURLFORM_COPYNAME, "filename",
-		CURLFORM_COPYCONTENTS, file,
-		CURLFORM_END);
-
-	/* Fill in the submit field too, even if this is rarely needed */
-	curl_formadd(&formpost,
-		&lastptr,
-		CURLFORM_COPYNAME, "submit",
-		CURLFORM_COPYCONTENTS, "send",
-		CURLFORM_END);
+	curl_mime *form = NULL;
+	curl_mimepart *field = NULL;
 
 	if (session->curl_) {
+		form = curl_mime_init(session->curl_);
+		/* Fill in the file upload field */
+		field = curl_mime_addpart(form);
+		curl_mime_name(field, "media");
+		curl_mime_filedata(field, file);
+
+		/* Fill in the submit field too, even if this is rarely needed */
+		field = curl_mime_addpart(form);
+		curl_mime_name(field, "submit");
+		curl_mime_data(field, "send", CURL_ZERO_TERMINATED);
+
 		HttpSetHeader(session, headers);
 		HttpSetHeader(session, "Expect:");
 		if (proxy) {
@@ -282,9 +272,9 @@ int HttpSendFile(void* user_ptr, const char* url, const char* headers, const cha
 			if (proxy_userpwd)
 				HttpSetProxyUserPwd(session, proxy_userpwd);
 		}
-		HttpOpen(session, url);
-		/* then cleanup the formpost chain */
-		curl_formfree(formpost);
+		curl_easy_setopt(session->curl_, CURLOPT_MIMEPOST, form);
+		HttpOpen(session, url, resp, data);
+		curl_mime_free(form);
 	}
 
 	HttpDestroySession(session);
