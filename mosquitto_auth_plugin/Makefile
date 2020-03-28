@@ -5,20 +5,19 @@
 NMARCH	=$(subst _,-,$(shell uname -m))
 
 #CXX		= g++
-CXXFLAGS= -g -Wall -Wno-deprecated -march=$(NMARCH) -fpermissive
+CXXFLAGS= -g -Wall -Wno-char-subscripts -march=$(NMARCH) -fpermissive -fPIC
 
-LIBNAME = mosquitto_auth_plugin
-
-APPNAME	= lib$(LIBNAME).so
+NAME	= libmosquitto_auth_plugin.so
+LIBNAME = libmosquitto_auth_plugin.lib
 OUTDIR	?= .
 
-CONDFLAGS = 
+CONDFLAGS =
 
-INCLUDES:= -I. -I.. -I../helper -I../helper/jsoncpp -I$(PGHOME)/include -I/usr/local/include
-LINKLIBS:= -lrt -lpthread -L$(PGHOME)/lib -L../helper -lhelper
+INCLUDES:= -I. -I.. -I../helper -I../helper/jsoncpp -I/usr/local/include
+LINKLIBS:= -lpthread -L../helper -lhelper
 
 COMPILEFLAGS:=$(CXXFLAGS) $(CONDFLAGS)
-LINKFLAGS:= -Wl,-rpath=.
+LINKFLAGS:= -shared
 
 ALLDIRS	= $(shell find . -name '*' -type d)
 DIRFILES= $(wildcard $(dir)/*.cpp)
@@ -29,15 +28,17 @@ OBJECTS := $(SOURCES:.cpp=.o)
 
 .PHONY:all clean
 
-all: $(LIBNAME)
-$(LIBNAME): $(APPNAME)
-$(APPNAME): $(OBJECTS)
+all:$(NAME) $(LIBNAME)
+$(NAME): $(OBJECTS)
 	$(CXX) $(LINKFLAGS) -o $@ $^ $(LINKLIBS)
 	chmod a+x $@
 	cp $@ $(OUTDIR)
+	
+$(LIBNAME): $(OBJECTS)
+	ar -rcs $@ $^
 
 $(OBJECTS):%.o:%.cpp
 	$(CXX) $(COMPILEFLAGS) $(INCLUDES) -c $^ -o $@
 	
 clean:
-	rm -f $(APPNAME) $(OBJECTS)
+	rm -f $(NAME) $(OBJECTS)

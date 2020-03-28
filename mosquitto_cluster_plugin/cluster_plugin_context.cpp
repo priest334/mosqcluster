@@ -68,7 +68,7 @@ string const& ClusterPluginContext::NodeName() const {
 
 void ClusterPluginContext::LoadConfig(const string& file) {
 	hlp::Config conf;
-	for (int i = 0; i < (sizeof(config_files) / sizeof(config_files[0])); i++) {
+	for (size_t i = 0; i < (sizeof(config_files) / sizeof(config_files[0])); i++) {
 		conf.LoadFile(config_files[i]);
 	}
 	conf.LoadFile(file);
