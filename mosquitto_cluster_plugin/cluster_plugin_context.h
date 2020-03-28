@@ -18,7 +18,7 @@ typedef hlp::xstring mstr;
 typedef struct _MosqClusterNode {
 	mstr name_;
 	MosqClient* client_;
-	MosqClusterNode* next_;
+	struct _MosqClusterNode* next_;
 } MosqClusterNode;
 
 class ClusterPluginContext {
