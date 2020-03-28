@@ -20,6 +20,7 @@ struct HttpSession {
 	char* proxy_userpwd_;
 	long timeout_;
 	char* post_data_;
+	long post_data_size_;
 	struct curl_slist* request_headers_;
 };
 
@@ -135,11 +136,13 @@ int HttpSetHeader(void* session, const char* header) {
 	return 0;
 }
 
-int HttpSetPostData(void* session, const char* data) {
-	if (NULL == data)
+int HttpSetPostData(void* session, const char* data, long size) {
+	if (NULL == data || size <= 0)
 		return -1;
 	struct HttpSession* s = (struct HttpSession*)session;
-	s->post_data_ = strdup(data);
+	s->post_data_ = (char*)calloc(1, size);
+	memcpy(s->post_data_, data, size);
+	s->post_data_size_ = size;
 	return 0;
 }
 
@@ -149,7 +152,8 @@ int HttpOpen(void* session, const char* url, char** resp/* = 0*/, char** data/* 
 	curl_easy_setopt(s->curl_, CURLOPT_URL, url);
 	if (HTTP_METHOD_POST == s->method_) {
 		curl_easy_setopt(s->curl_, CURLOPT_POST, 1L);
-		if (s->post_data_)
+		if (s->post_data_ && s->post_data_size_)
+			curl_easy_setopt(s->curl_, CURLOPT_POSTFIELDSIZE, s->post_data_size_);
 			curl_easy_setopt(s->curl_, CURLOPT_POSTFIELDS, s->post_data_);
 	}
 
@@ -213,7 +217,7 @@ int HttpGet(void* user_ptr, const char* url, const char* headers, HttpCallback c
 	return 0;
 }
 
-int HttpPost(void* user_ptr, const char* url, const char* headers, const char* data, HttpCallback cb, const char* proxy/* = 0*/, const char* proxy_userpwd/* = 0*/) {
+int HttpPost(void* user_ptr, const char* url, const char* headers, const char* data, long size, HttpCallback cb, const char* proxy/* = 0*/, const char* proxy_userpwd/* = 0*/) {
 	void* session = HttpCreateSession(user_ptr, cb, HTTP_METHOD_POST);
 	HttpSetHeader(session, headers);
 	if (proxy) {
@@ -221,7 +225,7 @@ int HttpPost(void* user_ptr, const char* url, const char* headers, const char* d
 		if (proxy_userpwd)
 			HttpSetProxyUserPwd(session, proxy_userpwd);
 	}
-	HttpSetPostData(session, data);
+	HttpSetPostData(session, data, size);
 	HttpOpen(session, url);
 	HttpDestroySession(session);
 	return 0;

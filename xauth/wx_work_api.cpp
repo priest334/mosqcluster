@@ -76,7 +76,7 @@ string WxApi::Get(const string& url) {
 string WxApi::Post(const string& url, const string& data) {
 	const char* headers = "Content-Type: application/json";
 	struct ApiResp resp;
-	int code = HttpPost(&resp, url.c_str(), headers, data.c_str(), ApiRespHandler);
+	int code = HttpPost(&resp, url.c_str(), headers, data.c_str(), data.size(), ApiRespHandler);
 	if (0 == code && resp.status_code_ == 200) {
 		return resp.content_;
 	}

@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{C4D66C49-9BF8-4984-B777-6A0AAC146B58}</ProjectGuid>
-    <RootNamespace>helper</RootNamespace>
+    <ProjectGuid>{7293D454-B9BA-4950-BB1D-8EDA2CADD6D6}</ProjectGuid>
+    <RootNamespace>mosquittoauthservice</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,7 +70,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(pthread)\include;$(curl)\include;$(openssl)\include;$(IncludePath)</IncludePath>
+    <IncludePath>F:\develop\mosquitto\lib;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -78,8 +78,10 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)jsoncpp;$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -88,6 +90,9 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -97,9 +102,9 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)jsoncpp;$(ProjectDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
@@ -114,73 +119,27 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="cache.h" />
-    <ClInclude Include="cache\native_file.h" />
-    <ClInclude Include="cache\native_memory.h" />
-    <ClInclude Include="command_line.h" />
-    <ClInclude Include="config.h" />
-    <ClInclude Include="crypto\aes.h" />
-    <ClInclude Include="crypto\base32.h" />
-    <ClInclude Include="crypto\base64.h" />
-    <ClInclude Include="crypto\des.h" />
-    <ClInclude Include="crypto\hexstr.h" />
-    <ClInclude Include="crypto\hash.h" />
-    <ClInclude Include="crypto\types.h" />
-    <ClInclude Include="http_wrapper.h" />
-    <ClInclude Include="ini_parser.h" />
-    <ClInclude Include="http_client.h" />
-    <ClInclude Include="jsoncpp\json\json-forwards.h" />
-    <ClInclude Include="jsoncpp\json\json.h" />
-    <ClInclude Include="json_wrapper.h" />
-    <ClInclude Include="local_stream.h" />
-    <ClInclude Include="logger.h" />
-    <ClInclude Include="simple_pool.h" />
-    <ClInclude Include="uuidx.h" />
-    <ClInclude Include="xstring.h" />
-    <ClInclude Include="lock.h" />
-    <ClInclude Include="lock_impl_posix.h" />
-    <ClInclude Include="string_convert.h" />
-    <ClInclude Include="string_helper.h" />
-    <ClInclude Include="task_queue_posix.h" />
-    <ClInclude Include="thread_pool.h" />
-    <ClInclude Include="url_encode.h" />
-    <ClInclude Include="waitable.h" />
-    <ClInclude Include="waitable_impl_posix.h" />
-    <ClInclude Include="xtime.h" />
+    <ClCompile Include="auth_service_main.cpp" />
+    <ClCompile Include="auth_service_routes.cpp" />
+    <ClCompile Include="global.cpp" />
+    <ClCompile Include="mosquitto_context_manager.cpp" />
+    <ClCompile Include="route_check_acl.cpp" />
+    <ClCompile Include="route_check_user.cpp" />
+    <ClCompile Include="route_initialize.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cache.cpp" />
-    <ClCompile Include="cache\native_file.cpp" />
-    <ClCompile Include="cache\native_memory.cpp" />
-    <ClCompile Include="command_line.cpp" />
-    <ClCompile Include="config.cpp" />
-    <ClCompile Include="crypto\aes.cpp" />
-    <ClCompile Include="crypto\base32.cpp" />
-    <ClCompile Include="crypto\base64.cpp" />
-    <ClCompile Include="crypto\des.cpp" />
-    <ClCompile Include="crypto\hexstr.cpp" />
-    <ClCompile Include="crypto\hash.cpp" />
-    <ClCompile Include="http_wrapper.cpp" />
-    <ClCompile Include="ini_parser.cpp" />
-    <ClCompile Include="http_client.cpp" />
-    <ClCompile Include="jsoncpp\jsoncpp.cpp" />
-    <ClCompile Include="json_wrapper.cpp" />
-    <ClCompile Include="lock.cpp" />
-    <ClCompile Include="lock_impl_posix.cpp" />
-    <ClCompile Include="logger.cpp" />
-    <ClCompile Include="string_convert.cpp" />
-    <ClCompile Include="string_helper.cpp" />
-    <ClCompile Include="thread_pool.cpp" />
-    <ClCompile Include="url_encode.cpp" />
-    <ClCompile Include="uuidx.cpp" />
-    <ClCompile Include="waitable.cpp" />
-    <ClCompile Include="waitable_impl_posix.cpp" />
-    <ClCompile Include="xtime.cpp" />
+    <ClInclude Include="auth_service_routes.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="mosquitto_context_manager.h" />
+    <ClInclude Include="route_check_acl.h" />
+    <ClInclude Include="route_check_user.h" />
+    <ClInclude Include="route_initialize.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

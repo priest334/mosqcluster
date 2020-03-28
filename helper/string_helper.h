@@ -12,6 +12,7 @@ namespace hlp {
 		using std::string;
 		using std::vector;
 		using std::map;
+		using std::multimap;
 
 		string TripLeft(const string& str, char ch);
 		string TripRight(const string& str, char ch);
@@ -159,8 +160,8 @@ namespace hlp {
 
 			void Set(const char* key, const char* value);
 			void Set(const string& key, const string& value);
-			string Find(const char* key);
-			string Find(const string& key);
+			string Find(const char* key) const;
+			string Find(const string& key) const;
 			void Remove(const char* key);
 			void Remove(const string& key);
 
@@ -176,6 +177,51 @@ namespace hlp {
 			typedef map<string, string>::const_iterator mciter;
 			typedef map<string, string>::iterator miter;
 			map<string, string> value_;
+		};
+
+		class StringMultiMap {
+		public:
+			StringMultiMap();
+			explicit StringMultiMap(const map<string, string>& m);
+			explicit StringMultiMap(const multimap<string, string>& m);
+			StringMultiMap(const char* values, const char* sp, const char* assign_key);
+			StringMultiMap(const string& values, const string& sp, const string& assign_key);
+			virtual ~StringMultiMap();
+
+			size_t Split(const char* values, const char* sp, const char* assign_key);
+			size_t Split(const string& values, const string& sp, const string& assign_key);
+
+			size_t Append(const char* key, const char* value);
+			size_t Append(const string& key, const string& value);
+			size_t Append(const map<string, string>& m);
+			size_t Append(const multimap<string, string>& m);
+			size_t Append(const StringMultiMap& m);
+			size_t Append(const char* values, const char* sp, const char* assign_key);
+			size_t Append(const string& values, const string& sp, const string& assign_key);
+
+			void Set(const char* key, const char* value);
+			void Set(const string& key, const string& value);
+			string Find(const char* key) const;
+			string Find(const string& key) const;
+			vector<string> FindAll(const char* key) const;
+			vector<string> FindAll(const string& key) const;
+			void Remove(const char* key);
+			void Remove(const string& key);
+
+			string ToString(const char* sp, const char* assign_key, bool append_sp = false);
+			string ToString(const string& sp, const string& assign_key, bool append_sp = false);
+
+			multimap<string, string>& reference() { return value_; }
+			multimap<string, string> const& const_reference() const { return value_; }
+
+			string operator[](const string& key) const;
+
+		private:
+			typedef multimap<string, string>::const_iterator mciter;
+			typedef multimap<string, string>::iterator miter;
+			typedef std::pair<miter, miter> miter_range;
+			typedef std::pair<mciter, mciter> mciter_range;
+			multimap<string, string> value_;
 		};
 } // namespace hlp
 

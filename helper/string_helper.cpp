@@ -729,12 +729,12 @@ namespace hlp {
 		value_[key] = value;
 	}
 
-	string StringMap::Find(const char* key) {
+	string StringMap::Find(const char* key) const  {
 		string k(key ? key : "");
 		return Find(k);
 	}
 
-	string StringMap::Find(const string& key) {
+	string StringMap::Find(const string& key) const {
 		if (key.empty())
 			return key;
 		mciter iter = value_.find(key);
@@ -779,6 +779,173 @@ namespace hlp {
 	}
 
 	string StringMap::operator[](const string& key) const {
+		mciter iter = value_.find(key);
+		if (iter != value_.end()) {
+			return iter->second;
+		}
+		return "";
+	}
+
+
+	// StringMultiMap
+	StringMultiMap::StringMultiMap() {
+	}
+
+	StringMultiMap::StringMultiMap(const map<string, string>& m) {
+		value_.insert(m.begin(), m.end());
+	}
+
+	StringMultiMap::StringMultiMap(const multimap<string, string>& m) {
+		value_.insert(m.begin(), m.end());
+	}
+
+	StringMultiMap::StringMultiMap(const char* values, const char* sp, const char* assign_key) {
+		Split(string(values ? values : ""), string(sp ? sp : ""), string(assign_key ? assign_key : ""));
+	}
+
+	StringMultiMap::StringMultiMap(const string& values, const string& sp, const string& assign_key) {
+		Split(values, sp, assign_key);
+	}
+
+	StringMultiMap::~StringMultiMap() {
+		value_.clear();
+	}
+
+	size_t StringMultiMap::Split(const char* values, const char* sp, const char* assign_key) {
+		return Split(string(values ? values : ""), string(sp ? sp : ""), string(assign_key ? assign_key : ""));
+	}
+
+	size_t StringMultiMap::Split(const string& values, const string& sp, const string& assign_key) {
+		value_.clear();
+		if (values.empty())
+			return 0;
+
+		StringVector vt(values, sp);
+
+		int size = vt.Size();
+		for (int i = 0; i < size; i++) {
+			string::size_type fpos = vt[i].find(assign_key);
+			if (fpos == string::npos)
+				continue;
+			string key = vt[i].substr(0, fpos);
+			string value = vt[i].substr(fpos + assign_key.length());
+			if (key.empty())
+				continue;
+			value_.insert({ key, value });
+		}
+		return value_.size();
+	}
+
+	size_t StringMultiMap::Append(const char* key, const char* value) {
+		return Append(string(key ? key : ""), string(value ? value : ""));
+	}
+
+	size_t StringMultiMap::Append(const string& key, const string& value) {
+		if (!key.empty())
+			value_.insert({ key, value });
+		return value_.size();
+	}
+
+	size_t StringMultiMap::Append(const map<string, string>& m) {
+		value_.insert(m.begin(), m.end());
+		return value_.size();
+	}
+
+	size_t StringMultiMap::Append(const multimap<string, string>& m) {
+		value_.insert(m.begin(), m.end());
+		return value_.size();
+	}
+
+	size_t StringMultiMap::Append(const StringMultiMap& m) {
+		return Append(m.value_);
+	}
+
+	size_t StringMultiMap::Append(const char* values, const char* sp, const char* assign_key) {
+		StringMultiMap m(values, sp, assign_key);
+		return Append(m);
+	}
+
+	size_t StringMultiMap::Append(const string& values, const string& sp, const string& assign_key) {
+		StringMultiMap m(values, sp, assign_key);
+		return Append(m);
+	}
+
+	void StringMultiMap::Set(const char* key, const char* value) {
+		Set(string(key ? key : ""), string(value ? value : ""));
+	}
+
+	void StringMultiMap::Set(const string& key, const string& value) {
+		if (key.empty())
+			return;
+		value_.insert({ key, value });
+	}
+
+	string StringMultiMap::Find(const char* key) const {
+		string k(key ? key : "");
+		return Find(k);
+	}
+
+	string StringMultiMap::Find(const string& key) const {
+		if (key.empty())
+			return key;
+		mciter iter = value_.find(key);
+		if (iter != value_.end())
+			return iter->second;
+		return string();
+	}
+
+	vector<string> StringMultiMap::FindAll(const char* key) const {
+		string k(key ? key : "");
+		return FindAll(k);
+	}
+
+	vector<string> StringMultiMap::FindAll(const string& key) const {
+		vector<string> values;
+		if (key.empty())
+			return values;
+		mciter_range range = value_.equal_range(key);
+		mciter iter = range.first;
+		for (; iter != range.second; ++iter) {
+			values.push_back(iter->second);
+		}
+	}
+
+	void StringMultiMap::Remove(const char* key) {
+		string k(key ? key : "");
+		return Remove(k);
+	}
+
+	void StringMultiMap::Remove(const string& key) {
+		if (key.empty())
+			return;
+		miter iter = value_.find(key);
+		if (iter != value_.end())
+			value_.erase(iter);
+	}
+
+	string StringMultiMap::ToString(const char* sp, const char* assign_key, bool append_sp/* = false*/) {
+		return ToString(string(sp ? sp : ""), string(assign_key ? assign_key : ""), append_sp);
+	}
+
+	string StringMultiMap::ToString(const string& sp, const string& assign_key, bool append_sp/* = false*/) {
+		string s("");
+
+		mciter iter = value_.begin();
+		for (;;) {
+			s += (*iter).first;
+			s += assign_key;
+			s += (*iter).second;
+			if ((++iter) == value_.end()) {
+				if (append_sp)
+					s += sp;
+				break;
+			}
+			s += sp;
+		}
+		return s;
+	}
+
+	string StringMultiMap::operator[](const string& key) const {
 		mciter iter = value_.find(key);
 		if (iter != value_.end()) {
 			return iter->second;

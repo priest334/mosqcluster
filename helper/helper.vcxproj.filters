@@ -120,6 +120,12 @@
     <ClInclude Include="uuidx.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="local_stream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="http_wrapper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lock.cpp">
@@ -198,6 +204,9 @@
       <Filter>crypto</Filter>
     </ClCompile>
     <ClCompile Include="uuidx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="http_wrapper.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

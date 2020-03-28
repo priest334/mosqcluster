@@ -212,6 +212,18 @@ namespace hlp {
 			return true;
 		}
 
+		bool operator!=(const xstring& str) const {
+			return !((*this) == str);
+		}
+
+		bool operator!=(const std::string& str) const {
+			return !((*this) == str);
+		}
+
+		bool operator!=(const char* str) const {
+			return !((*this) == str);
+		}
+
 		bool empty() const {
 			return (size_ <= 0);
 		}
