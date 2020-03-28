@@ -1,6 +1,8 @@
 #include "http_wrapper.h"
 #include "http_client.h"
 
+HttpWrapper::HttpResponse::HttpResponse() {
+}
 
 long HttpWrapper::HttpResponse::status_code() const {
 	return status_code_;

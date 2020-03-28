@@ -19,14 +19,14 @@ namespace hlp
 			return retval;
 		}
 
-		string ToLower(const string& str) {
-			string retval;
-			retval.resize(str.length());
-			string::size_type index, len = str.length();
-			for (index = 0; index < len; index++)
-				retval[index] = tolower(str[index]);
-			return retval;
-		}
+		//string ToLower(const string& str) {
+		//	string retval;
+		//	retval.resize(str.length());
+		//	string::size_type index, len = str.length();
+		//	for (index = 0; index < len; index++)
+		//		retval[index] = tolower(str[index]);
+		//	return retval;
+		//}
 	}
 	const char* kHost = "host";
 	const char* kPort = "port";
