@@ -17,7 +17,7 @@ INCLUDES:= -I. -I.. -I../helper -I../helper/jsoncpp -I/usr/local/include
 LINKLIBS:= -lrt -lpthread -L../helper -lhelper
 
 COMPILEFLAGS:=$(CXXFLAGS) $(CONDFLAGS)
-LINKFLAGS:= -shared
+LINKFLAGS:= -shared -Wl,-rpath=.
 
 ALLDIRS	= $(shell find . -name '*' -type d)
 DIRFILES= $(wildcard $(dir)/*.cpp)
