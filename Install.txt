@@ -1,3 +1,4 @@
 1. yum install -y openss-devel curl-devel
 2. wget "https://github.com/redis/hiredis/archive/v0.14.0.tar.gz" && tar -xf v0.14.0.tar.gz && cd hiredis-0.14.0 && make USE_SSL=1 && make install
 3. yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm && yum install -y postgresql10-devel
+3. wget "https://curl.haxx.se/download/curl-7.69.1.tar.gz" && tar -xf curl-7.69.1.tar.gz && cd curl-7.69.1 && ./configure && make && make install

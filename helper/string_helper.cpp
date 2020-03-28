@@ -908,6 +908,7 @@ namespace hlp {
 		for (; iter != range.second; ++iter) {
 			values.push_back(iter->second);
 		}
+		return values;
 	}
 
 	void StringMultiMap::Remove(const char* key) {

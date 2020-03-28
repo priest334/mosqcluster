@@ -39,13 +39,13 @@ void HttpWrapper::SetHeader(const string& key, const string& value) {
 
 bool HttpWrapper::Get(const string& url) {
 	string headers = headers_.ToString("\r\n", ":");
-	int code = HttpGet(this, url.c_str(), headers.c_str(), HttpRespHandler);
+	HttpGet(this, url.c_str(), headers.c_str(), HttpRespHandler);
 	return (response_.status_code() == 200);
 }
 
 bool HttpWrapper::Post(const string& url, const void* data, size_t size) {
 	string headers = headers_.ToString("\r\n", ":");
-	int code = HttpPost(this, url.c_str(), headers.c_str(), (const char*)data, size, HttpRespHandler);
+	HttpPost(this, url.c_str(), headers.c_str(), (const char*)data, size, HttpRespHandler);
 	return (response_.status_code() == 200);
 }
 
