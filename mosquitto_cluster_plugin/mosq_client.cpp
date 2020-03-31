@@ -161,6 +161,14 @@ private:
 	mstr topic_;
 };
 
+void MosqClient::InitMosqLibrary() {
+	mosquitto_lib_init();
+}
+
+void CleanMosqLibrary() {
+	mosquitto_lib_cleanup();
+}
+
 MosqClient::MosqClient() 
 	: state_(Stopped), 
 	clean_session_(true),
