@@ -14,7 +14,7 @@ OUTDIR	?= .
 CONDFLAGS =
 
 INCLUDES:= -I. -I.. -I../helper -I../helper/jsoncpp -I/usr/local/include
-LINKLIBS:= -lrt -lpthread -L../helper -lhelper
+LINKLIBS:= -lrt -lpthread -lmosquitto -L../helper -lhelper
 
 COMPILEFLAGS:=$(CXXFLAGS) $(CONDFLAGS)
 LINKFLAGS:= -shared -Wl,-rpath=.
