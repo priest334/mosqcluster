@@ -18,9 +18,7 @@ namespace hlp {
 		application_ = argv[0];
 		for (int i = 1; i < argc; i++) {
 			char* argp = argv[i];
-			char ch = *argp;
-			while (ch == '-') {
-				ch = *++argp;
+			for (char ch = *argp; ch == '-'; ch = *++argp) {
 			}
 			char* sep = strchr(argp, '=');
 			if (sep) {
@@ -47,7 +45,7 @@ namespace hlp {
 	}
 
 	string CommandLine::GetSwitchValueWithDefault(const string& name, const string& default_value) {
-		string value = GetSwitchValue(default_value);
+		string value = GetSwitchValue(name);
 		if (value.empty()) {
 			return default_value;
 		}
