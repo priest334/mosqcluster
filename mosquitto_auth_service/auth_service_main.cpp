@@ -28,6 +28,7 @@ public:
 		config::Initialize(cmdline);
 		logger::Initialize();
 		async::Initialize();
+		service::Initialize();
 	}
 
 	~GlobalInitializer() {
