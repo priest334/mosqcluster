@@ -100,7 +100,7 @@ namespace logger {
 
 	NamedFileLogger* default_logger = NULL;
 	void Initialize() {
-		string file = config::Get()->Get("logdir", "/var/log/xauth.log");
+		string file = config::Get()->Get("logpath", "/var/log/mosquitto_auth_service.log");
 		default_logger = new NamedFileLogger(file);
 	}
 	void Cleanup() {

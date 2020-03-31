@@ -30,6 +30,6 @@ int RouteInitialize::Process(HttpRequest* req, HttpResponse* resp) {
 }
 
 RouteKey RouteInitialize::route_key() const {
-	return RouteKey(HTTP_GET, "/mosquitto/initialize");
+	return RouteKey(HTTP_POST, "/mosquitto/initialize");
 }
 

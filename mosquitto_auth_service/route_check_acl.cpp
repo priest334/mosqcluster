@@ -30,6 +30,6 @@ int RouteCheckAcl::Process(HttpRequest* req, HttpResponse* resp) {
 	return 0;
 }
 RouteKey RouteCheckAcl::route_key() const {
-	return RouteKey(HTTP_GET, "/mosquitto/checkacl");
+	return RouteKey(HTTP_POST, "/mosquitto/checkacl");
 }
 

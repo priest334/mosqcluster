@@ -28,6 +28,6 @@ int RouteCheckUser::Process(HttpRequest* req, HttpResponse* resp) {
 	return 0;
 }
 RouteKey RouteCheckUser::route_key() const {
-	return RouteKey(HTTP_GET, "/mosquitto/checkuser");
+	return RouteKey(HTTP_POST, "/mosquitto/checkuser");
 }
 
