@@ -19,7 +19,7 @@ namespace hlp {
 		for (int i = 1; i < argc; i++) {
 			char* argp = argv[i];
 			char ch;
-			for (ch = *argp; ch == '/' || ch == '-'; ch = *++argp)
+			for (ch = *argp; ch == '-'; ch = *++argp)
 				continue;
 			char* sep = strchr(argp, '=');
 			if (sep) {
