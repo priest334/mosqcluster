@@ -5,9 +5,12 @@
 #include "helper/config.h"
 #include "helper/json_wrapper.h"
 
-#include <mosquitto_internal.h>
-#include <mosquitto.h>
 
+#define MOSQ_BASIC_INFO_OFFSET (sizeof(int)*4)
+#define MosqClientAddress(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET)
+#define MosqClientId(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+sizeof(char*))
+#define MosqClientUsername(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+2*sizeof(char*))
+#define MosqClientPassword(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+3*sizeof(char*))
 
 #define MOSQUITTO_PLUGIN_VERSION "mosqauth/1.6.9.1"
 
@@ -55,7 +58,7 @@ void AuthPluginContext::Cleanup(bool reload/* = false*/) {
 AuthPluginContext::AuthPluginError AuthPluginContext::CheckUser(struct mosquitto* client, const string& username, const string& password) {
 	if (checkuser_url_.empty())
 		return Defer;
-	string clientid = client->id ? client->id : "";
+	string clientid = MosqClientId(client);
 	hlp::JsonDocument data;
 	data.Set("name", node_name_);
 	data.Set("clientid", clientid);
@@ -81,7 +84,7 @@ AuthPluginContext::AuthPluginError AuthPluginContext::CheckUser(struct mosquitto
 AuthPluginContext::AuthPluginError AuthPluginContext::CheckAcl(struct mosquitto* client, int access, const string& topic, const void* payload, long payloadlen, int qos, bool retain) {
 	if (checkacl_url_.empty())
 		return Defer;
-	string clientid = client->id ? client->id : "";
+	string clientid = MosqClientId(client);
 	hlp::JsonDocument data;
 	data.Set("name", node_name_);
 	data.Set("clientid", clientid);

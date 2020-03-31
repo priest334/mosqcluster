@@ -8,9 +8,12 @@
 #include "mosq_client.h"
 #include "helper/lock_impl_posix.h"
 
-#include <mosquitto.h>
-#include <mosquitto_internal.h>
 
+#define MOSQ_BASIC_INFO_OFFSET (sizeof(int)*4)
+#define MosqClientAddress(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET)
+#define MosqClientId(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+sizeof(char*))
+#define MosqClientUsername(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+2*sizeof(char*))
+#define MosqClientPassword(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+3*sizeof(char*))
 
 #define MOSQUITTO_PLUGIN_VERSION "mosqcluster/1.6.9.1"
 
@@ -114,7 +117,7 @@ void ClusterPluginContext::Cleanup(bool reload/* = false*/) {
 void ClusterPluginContext::MosqProxyPass(struct mosquitto* client, int access, const string& topic, const void* payload, long payloadlen, int qos, bool retain) {
 	if (api_join_.empty())
 		return;
-	string clientid = client->id ? client->id : "";
+	string clientid = MosqClientId(client);
 	if (0 == clientid.find("mosqcluster"))
 		return;
 	AutoLock lock(lock_);
