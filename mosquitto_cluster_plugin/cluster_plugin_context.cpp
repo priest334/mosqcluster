@@ -138,6 +138,7 @@ void ClusterPluginContext::MaintainProxyInstances(const string& name) {
 			exists = true;
 			break;
 		}
+		nodeiter = nodeiter->next_;
 	}
 	if (!exists) {
 		MosqClusterNode* node = new MosqClusterNode();
