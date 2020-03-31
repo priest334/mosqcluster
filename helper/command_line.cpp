@@ -18,9 +18,10 @@ namespace hlp {
 		application_ = argv[0];
 		for (int i = 1; i < argc; i++) {
 			char* argp = argv[i];
-			char ch;
-			for (ch = *argp; ch == '-'; ch = *++argp)
-				continue;
+			char ch = *argp;
+			while (ch == '-') {
+				ch = *++argp;
+			}
 			char* sep = strchr(argp, '=');
 			if (sep) {
 				string name(argp, sep - argp);
