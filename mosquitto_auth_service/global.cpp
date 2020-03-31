@@ -62,7 +62,7 @@ namespace global{
 namespace config {
 	hlp::Config* default_config = NULL;
 	void Initialize(hlp::CommandLine* cmdline) {
-		string file = cmdline->GetSwitchValueWithDefault("config", "./xauth.conf");
+		string file = cmdline->GetSwitchValueWithDefault("config", "./auth.conf");
 		default_config = new hlp::Config();
 		default_config->LoadFile(file);
 	}
