@@ -158,7 +158,7 @@ void ClusterPluginContext::MaintainProxyInstances(const string& name) {
 			node->client_->set_host(node->name_.c_str());
 		}
 		hlp::String str;
-		str.Format("mosqcluster/%s", hlp::crypt::md5(node->name_.c_str()));
+		str.Format("mosqcluster/%s", hlp::crypt::md5(node->name_.c_str()).c_str());
 		node->client_->set_client_id(str.str());
 		node->client_->set_username("mosqcluster");
 		node->client_->set_password("mosqcluster");

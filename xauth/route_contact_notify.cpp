@@ -8,6 +8,37 @@
 using std::string;
 using namespace Tencent;
 
+
+namespace {
+	class ExternalContactNotify : public ThreadPool::Task {
+	public:
+		ExternalContactNotify(const string& action, const string& corp, const string& app, const string& userid, const string& external_userid)
+			: action_(action), corp_(corp), app_(app), userid_(userid), external_userid_(external_userid) {
+		}
+
+		~ExternalContactNotify() {
+		}
+
+		void Run() {
+			WxResp info;
+			info.Parse(WxApi::GetExternalContact(corp_.c_str(), app_.c_str(), external_userid_.c_str()));
+			string wechat = info.Get("external_contact.name");
+			string content = action_.c_str() + wechat;
+			logger::Debug() << content;
+			WxApi::SendAppTextMessage(corp_.c_str(), app_.c_str(), userid_.c_str(), content);
+		}
+		void Finish() {
+			delete this;
+		}
+	private:
+		mstr action_;
+		mstr corp_;
+		mstr app_;
+		mstr userid_;
+		mstr external_userid_;
+	};
+}
+
 RouteKey RouteContactVerify::route_key() const {
 	return RouteKey(HTTP_GET, "/wxwork/contact");
 }
@@ -125,13 +156,7 @@ int RouteContactHandler::OnAddExternalContact(HttpRequest* req, HttpResponse* re
 	xml->Get("UserID", userid);
 	xml->Get("ExternalUserID", external_userid);
 
-	WxResp info;
-	info.Parse(WxApi::GetExternalContact(corp_, app_, external_userid));
-	string wechat = info.Get("external_contact.name");
-
-	string content = "New External Contact: " + wechat;
-	logger::Debug() << content;
-	WxApi::SendAppTextMessage(corp_, app_, userid, content);
+	async::Execute(new ExternalContactNotify("New External Contact: ", corp_, app_, userid, external_userid));
 	return 0;
 }
 
@@ -140,13 +165,7 @@ int RouteContactHandler::OnDelExternalContact(HttpRequest* req, HttpResponse* re
 	xml->Get("UserID", userid);
 	xml->Get("ExternalUserID", external_userid);
 
-	WxResp info;
-	info.Parse(WxApi::GetExternalContact(corp_, app_, external_userid));
-	string wechat = info.Get("external_contact.name");
-
-	string content = "Del External Contact: " + wechat;
-	logger::Debug() << content;
-	WxApi::SendAppTextMessage(corp_, app_, userid, content);
+	async::Execute(new ExternalContactNotify("Del External Contact: ", corp_, app_, userid, external_userid));
 	return 0;
 }
 
