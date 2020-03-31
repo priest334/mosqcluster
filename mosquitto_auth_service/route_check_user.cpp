@@ -7,7 +7,7 @@
 
 
 int RouteCheckUser::Process(HttpRequest* req, HttpResponse* resp) {
-	resp->SetStatus(HTTP_STATUS_OK);
+	MosqAuthRouteProc::Process(req, resp);
 
 	bool granted = false;
 	hlp::JsonDocument data, doc;
@@ -22,7 +22,6 @@ int RouteCheckUser::Process(HttpRequest* req, HttpResponse* resp) {
 
 	doc.Set("code", granted ? 0 : -1);
 	doc.Set("message", granted ? "success" : "failed");
-	resp->SetHeader("Content-Type", "application/json");
 	resp->SetContent(doc.Write(false));
 
 	return 0;

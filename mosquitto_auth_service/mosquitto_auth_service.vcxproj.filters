@@ -36,6 +36,9 @@
     <ClCompile Include="mosquitto_context_manager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="mosq_auth_route_proc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="global.h">
@@ -54,6 +57,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="mosquitto_context_manager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="mosq_auth_route_proc.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

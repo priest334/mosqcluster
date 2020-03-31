@@ -8,7 +8,7 @@
 using std::vector;
 
 int RouteInitialize::Process(HttpRequest* req, HttpResponse* resp) {
-	resp->SetStatus(HTTP_STATUS_OK);
+	MosqAuthRouteProc::Process(req, resp);
 
 	hlp::JsonDocument data;
 	data.Parse(req->body().c_str());
@@ -22,7 +22,6 @@ int RouteInitialize::Process(HttpRequest* req, HttpResponse* resp) {
 		doc.Set("code", 0);
 		doc.Set("message", "success");
 		doc.Set("nodes", nodes);
-		resp->SetHeader("Content-Type", "application/json");
 		resp->SetContent(doc.Write(false));
 	}
 

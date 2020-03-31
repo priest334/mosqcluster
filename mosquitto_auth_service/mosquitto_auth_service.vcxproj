@@ -129,6 +129,7 @@
     <ClCompile Include="auth_service_routes.cpp" />
     <ClCompile Include="global.cpp" />
     <ClCompile Include="mosquitto_context_manager.cpp" />
+    <ClCompile Include="mosq_auth_route_proc.cpp" />
     <ClCompile Include="route_check_acl.cpp" />
     <ClCompile Include="route_check_user.cpp" />
     <ClCompile Include="route_initialize.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="auth_service_routes.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="mosquitto_context_manager.h" />
+    <ClInclude Include="mosq_auth_route_proc.h" />
     <ClInclude Include="route_check_acl.h" />
     <ClInclude Include="route_check_user.h" />
     <ClInclude Include="route_initialize.h" />
