@@ -165,7 +165,7 @@ void MosqClient::InitMosqLibrary() {
 	mosquitto_lib_init();
 }
 
-void CleanMosqLibrary() {
+void MosqClient::CleanMosqLibrary() {
 	mosquitto_lib_cleanup();
 }
 
@@ -304,6 +304,7 @@ void MosqClient::PublishLoop() {
 
 void MosqClient::Start() {
 	mosq_ = mosquitto_new(client_id().c_str(), clean_session(), this);
+	mosquitto_threaded_set(mosq_, true);
 	mosquitto_username_pw_set(mosq_, username().c_str(), password().c_str());
 	mosquitto_connect_callback_set(mosq_, mosq_on_connect);
 	mosquitto_disconnect_callback_set(mosq_, mosq_on_disconnect);

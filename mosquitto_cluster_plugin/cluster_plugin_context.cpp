@@ -84,6 +84,7 @@ void ClusterPluginContext::SetOpt(const string& key, const string& value) {
 
 void ClusterPluginContext::Initialize(bool reload/* = false*/) {
 	if (!reload) {
+		MosqClient::InitMosqLibrary();
 		LoadConfig(config_file_);
 
 		hlp::JsonDocument doc;
@@ -109,6 +110,9 @@ void ClusterPluginContext::Initialize(bool reload/* = false*/) {
 }
 
 void ClusterPluginContext::Cleanup(bool reload/* = false*/) {
+	if (!reload) {
+		MosqClient::CleanMosqLibrary();
+	}
 }
 
 void ClusterPluginContext::MosqProxyPass(struct mosquitto* client, int access, const string& topic, const void* payload, long payloadlen, int qos, bool retain) {

@@ -24,6 +24,8 @@ class MosqClient {
 	} RunningState;
 
 public:
+	static void InitMosqLibrary();
+	static void CleanMosqLibrary();
 	MosqClient();
 
 	void set_clean_session(bool cleansession);
