@@ -77,7 +77,7 @@ void ClusterPluginContext::LoadConfig(const string& file) {
 }
 
 void ClusterPluginContext::SetOpt(const string& key, const string& value) {
-	if (key == "config") {
+	if (key == "cluster_config_file") {
 		config_file_ = value;
 	}
 }

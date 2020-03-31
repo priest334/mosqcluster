@@ -40,7 +40,7 @@ void AuthPluginContext::LoadConfig(const string& file) {
 }
 
 void AuthPluginContext::SetOpt(const string& key, const string& value) {
-	if (key == "config") {
+	if (key == "auth_config_file") {
 		config_file_ = value;
 	}
 }
