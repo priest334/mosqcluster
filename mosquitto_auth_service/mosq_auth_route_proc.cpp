@@ -6,6 +6,9 @@
 
 
 int MosqAuthRouteProc::Process(HttpRequest* req, HttpResponse* resp) {
+	logger::Debug() << req->url().c_str();
+	logger::Debug() << req->body().c_str();
+
 	resp->SetStatus(HTTP_STATUS_OK);
 	resp->SetHeader("Content-Type", "application/json");
 	resp->SetHeader("Server", "mosquitto_auth_service/1.0");
