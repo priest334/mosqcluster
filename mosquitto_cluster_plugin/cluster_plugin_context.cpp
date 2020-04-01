@@ -118,6 +118,9 @@ void ClusterPluginContext::MosqProxyPass(struct mosquitto* client, int access, c
 	if (api_join_.empty())
 		return;
 	string clientid = MosqClientId(client);
+	string address = MosqClientAddress(client);
+	string username = MosqClientUsername(client);
+	string password = MosqClientPassword(client);
 	if (0 == clientid.find("mosqcluster"))
 		return;
 	AutoLock lock(lock_);
