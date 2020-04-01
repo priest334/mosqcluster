@@ -9,7 +9,7 @@
 #include "helper/lock_impl_posix.h"
 
 
-#define MOSQ_BASIC_INFO_OFFSET (sizeof(int)*4)
+#define MOSQ_BASIC_INFO_OFFSET (sizeof(int)*2)
 #define MosqClientAddress(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET)
 #define MosqClientId(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+sizeof(char*))
 #define MosqClientUsername(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+2*sizeof(char*))
