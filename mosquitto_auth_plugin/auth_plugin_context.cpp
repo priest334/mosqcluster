@@ -87,7 +87,6 @@ AuthPluginContext::AuthPluginError AuthPluginContext::CheckAcl(struct mosquitto*
 	if (checkacl_url_.empty())
 		return Defer;
 	string clientid = MosqClientId(client);
-	string clientid = MosqClientId(client);
 	if (0 == clientid.find("mosqcluster"))
 		return NoError;
 	hlp::JsonDocument data;
