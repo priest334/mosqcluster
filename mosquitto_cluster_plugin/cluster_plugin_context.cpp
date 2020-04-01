@@ -118,9 +118,6 @@ void ClusterPluginContext::MosqProxyPass(struct mosquitto* client, int access, c
 	if (api_join_.empty())
 		return;
 	string clientid = MosqClientId(client);
-	string address = MosqClientAddress(client);
-	string username = MosqClientUsername(client);
-	string password = MosqClientPassword(client);
 	if (0 == clientid.find("mosqcluster"))
 		return;
 	AutoLock lock(lock_);
@@ -134,6 +131,8 @@ void ClusterPluginContext::MosqProxyPass(struct mosquitto* client, int access, c
 void ClusterPluginContext::MaintainProxyInstances(const vector<string>& nodes) {
 	vector<string>::const_iterator iter = nodes.begin();
 	for (; iter != nodes.end(); ++iter) {
+		if (node_name_ == *iter)
+			continue;
 		MaintainProxyInstances(*iter);
 	}
 }
@@ -167,7 +166,7 @@ void ClusterPluginContext::MaintainProxyInstances(const string& name) {
 		node->client_->set_client_id(str.str());
 		node->client_->set_username("mosqcluster");
 		node->client_->set_password("mosqcluster");
-		node->client_->set_clean_session(false);
+		node->client_->set_clean_session(true);
 		node->client_->set_keep_alive(10);
 		node->client_->Start();
 

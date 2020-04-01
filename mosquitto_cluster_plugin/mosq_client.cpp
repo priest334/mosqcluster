@@ -276,7 +276,7 @@ void MosqClient::SubscribeLoop() {
 			reconnect = true;
 			state_ = Running;
 			do {
-				rc = mosquitto_loop(mosq_, 1, 1);
+				rc = mosquitto_loop(mosq_, -1, 1);
 			} while (state_ != Stopping && rc == MOSQ_ERR_SUCCESS);
 			state_ = Reconnecting;
 		}
