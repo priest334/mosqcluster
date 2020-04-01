@@ -10,10 +10,10 @@
 
 
 #define MOSQ_BASIC_INFO_OFFSET (sizeof(int)*2)
-#define MosqClientAddress(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET)
-#define MosqClientId(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+sizeof(char*))
-#define MosqClientUsername(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+2*sizeof(char*))
-#define MosqClientPassword(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+3*sizeof(char*))
+#define MosqClientAddress(o) (char*)(&(((char*)o)+MOSQ_BASIC_INFO_OFFSET))
+#define MosqClientId(o) (char*)(&(((char*)o)+MOSQ_BASIC_INFO_OFFSET+sizeof(char*)))
+#define MosqClientUsername(o) (char*)(&(((char*)o)+MOSQ_BASIC_INFO_OFFSET+2*sizeof(char*)))
+#define MosqClientPassword(o) (char*)(&(((char*)o)+MOSQ_BASIC_INFO_OFFSET+3*sizeof(char*)))
 
 #define MOSQUITTO_PLUGIN_VERSION "mosqcluster/1.6.9.1"
 
