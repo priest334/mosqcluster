@@ -6,11 +6,11 @@
 #include "helper/json_wrapper.h"
 
 
-#define MOSQ_BASIC_INFO_OFFSET (sizeof(int)*4)
-#define MosqClientAddress(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET)
-#define MosqClientId(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+sizeof(char*))
-#define MosqClientUsername(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+2*sizeof(char*))
-#define MosqClientPassword(o) (char*)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+3*sizeof(char*))
+#define MOSQ_BASIC_INFO_OFFSET (sizeof(int)*2)
+#define MosqClientAddress(o) (*((char**)(((char*)o)+MOSQ_BASIC_INFO_OFFSET)))
+#define MosqClientId(o) (*((char**)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+sizeof(char**))))
+#define MosqClientUsername(o) (*((char**)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+2*sizeof(char**))))
+#define MosqClientPassword(o) (*((char**)(((char*)o)+MOSQ_BASIC_INFO_OFFSET+3*sizeof(char**))))
 
 #define MOSQUITTO_PLUGIN_VERSION "mosqauth/1.6.9.1"
 
@@ -59,6 +59,8 @@ AuthPluginContext::AuthPluginError AuthPluginContext::CheckUser(struct mosquitto
 	if (checkuser_url_.empty())
 		return Defer;
 	string clientid = MosqClientId(client);
+	if (0 == clientid.find("mosqcluster"))
+		return NoError;
 	hlp::JsonDocument data;
 	data.Set("name", node_name_);
 	data.Set("clientid", clientid);
@@ -85,6 +87,9 @@ AuthPluginContext::AuthPluginError AuthPluginContext::CheckAcl(struct mosquitto*
 	if (checkacl_url_.empty())
 		return Defer;
 	string clientid = MosqClientId(client);
+	string clientid = MosqClientId(client);
+	if (0 == clientid.find("mosqcluster"))
+		return NoError;
 	hlp::JsonDocument data;
 	data.Set("name", node_name_);
 	data.Set("clientid", clientid);
