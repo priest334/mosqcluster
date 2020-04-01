@@ -831,7 +831,7 @@ namespace hlp {
 			string value = vt[i].substr(fpos + assign_key.length());
 			if (key.empty())
 				continue;
-			value_.insert({ key, value });
+			value_.insert(std::pair<string,string>(key, value));
 		}
 		return value_.size();
 	}
@@ -842,7 +842,7 @@ namespace hlp {
 
 	size_t StringMultiMap::Append(const string& key, const string& value) {
 		if (!key.empty())
-			value_.insert({ key, value });
+			value_.insert(std::pair<string, string>(key, value));
 		return value_.size();
 	}
 
@@ -877,7 +877,7 @@ namespace hlp {
 	void StringMultiMap::Set(const string& key, const string& value) {
 		if (key.empty())
 			return;
-		value_.insert({ key, value });
+		value_.insert(std::pair<string, string>(key, value));
 	}
 
 	string StringMultiMap::Find(const char* key) const {
