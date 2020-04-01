@@ -297,6 +297,7 @@ void MosqClient::PublishLoop() {
 			if (MOSQ_ERR_SUCCESS != rc) {
 				//
 			}
+			delete command;
 		}
 	}
 }
